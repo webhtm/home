@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Webhtm Landing Page</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Franklin+Gothic+Medium&display=swap');
+
+    * {
+      font-family: 'Franklin Gothic Medium', sans-serif;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #121212;
+      color: #e0e0e0;
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+      scrollbar-width: thin;
+      scrollbar-color: #333 #000;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #000;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 2px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: #1e1e1e;
+      color: #e0e0e0;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .top-bar h1 {
+      margin: 0;
+      font-size: 26px;
+      background: linear-gradient(90deg, #00ff87, #00b7eb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-right: 20px;
+    }
+
+    .top-bar-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .top-bar-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .sidebar-toggle,
+    .global-search-trigger,
+    .menu-toggle {
+      background: transparent;
+      border: none;
+      color: #e0e0e0;
+      font-size: 24px;
+      cursor: pointer;
+      transition: color 0.2s;
+      margin-left: 16px;
+    }
+
+    .sidebar-toggle:hover,
+    .global-search-trigger:hover,
+    .menu-toggle:hover {
+      color: #00b7eb;
+    }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 60px;
+      right: 0;
+      background: #1e1e1e;
+      width: 200px;
+      box-shadow: -4px 0 10px rgba(0,0,0,0.2);
+      z-index: 1000;
+      border-radius: 6px;
+      overflow-y: auto;
+      max-height: calc(100vh - 70px);
+    }
+
+    .mobile-menu.active {
+      display: block;
+    }
+
+    .mobile-menu a,
+    .mobile-menu button,
+    .mobile-menu span {
+      display: flex;
+      align-items: center;
+      color: #e0e0e0;
+      padding: 12px 16px;
+      text-decoration: none;
+      font-size: 16px;
+      transition: background 0.2s;
+      border: none;
+      background: transparent;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .mobile-menu span {
+      color: #888888;
+      cursor: default;
+    }
+
+    .mobile-menu a:hover,
+    .mobile-menu button:hover {
+      background: #333333;
+    }
+
+    .mobile-menu i {
+      margin-right: 8px;
+    }
+
+    .project-count {
+      font-size: 16px;
+      color: #888888;
+      margin-left: 16px;
+    }
+
+    .top-nav {
+      display: flex;
+      gap: 20px;
+      margin-left: 20px;
+    }
+
+    .top-nav a {
+      color: #e0e0e0;
+      text-decoration: none;
+      font-size: 16px;
+      transition: color 0.2s;
+    }
+
+    .top-nav a:hover {
+      color: #00b7eb;
+    }
+
+    .global-search {
+      display: none;
+      align-items: center;
+      margin-left: auto;
+    }
+
+    .global-search button {
+      background: transparent;
+      border: none;
+      color: #e0e0e0;
+      font-size: 24px;
+      cursor: pointer;
+      margin-right: 8px;
+      display: none;
+      transition: color 0.2s;
+    }
+
+    .global-search button:hover {
+      color: #00b7eb;
+    }
+
+    .global-search input {
+      width: 200px;
+      padding: 10px 14px;
+      border-radius: 6px;
+      border: none;
+      background: #2a2a2a;
+      color: #e0e0e0;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+
+    .global-search input:focus {
+      background: #333333;
+      outline: none;
+    }
+
+    .global-search input::placeholder {
+      color: #888888;
+    }
+
+    .global-search-results {
+      position: absolute;
+      top: 60px;
+      left: 0;
+      right: 0;
+      background: #1e1e1e;
+      max-height: 400px;
+      overflow-y: auto;
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      border-radius: 0 0 6px 6px;
+      display: none;
+      padding: 10px;
+    }
+
+    .global-search-results.active {
+      display: block;
+    }
+
+    .global-search-results .site-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .global-search-results .site-list li {
+      margin-bottom: 12px;
+    }
+
+    .global-search-results .site-list a {
+      display: block;
+      color: #e0e0e0;
+      text-decoration: none;
+      padding: 12px 14px;
+      border-radius: 6px;
+      background: #252525;
+      transition: background 0.2s, transform 0.2s;
+      font-size: 14px;
+    }
+
+    .global-search-results .site-list a:hover {
+      background: #007bff;
+      transform: translateX(4px);
+    }
+
+    .global-search-results .site-list .repo-info {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #888888;
+      margin-top: 6px;
+      gap: 8px;
+    }
+
+    .global-search-results .loading,
+    .global-search-results .error {
+      text-align: center;
+      padding: 20px;
+      color: #888888;
+    }
+
+    .global-search-results .error {
+      color: #ff5555;
+    }
+
+    .settings-menu {
+      position: relative;
+      margin-left: 16px;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      background: #1e1e1e;
+      min-width: 160px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      z-index: 1;
+      border-radius: 6px;
+    }
+
+    .dropdown-content a {
+      color: #e0e0e0;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      transition: background 0.2s;
+    }
+
+    .dropdown-content a:hover {
+      background: #333333;
+    }
+
+    .settings-menu:hover .dropdown-content {
+      display: block;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1001;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: rgba(0,0,0,0.5);
+    }
+
+    .modal-content {
+      background: #1e1e1e;
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-header {
+      background: #252525;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .modal-title {
+      font-size: 20px;
+      color: #e0e0e0;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 16px;
+    }
+
+    .modal-reload,
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: #e0e0e0;
+      font-size: 24px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .modal-reload:hover,
+    .modal-close:hover {
+      color: #00b7eb;
+    }
+
+    #preview-iframe {
+      flex: 1;
+      width: 100%;
+      border: none;
+      background: #fff;
+    }
+
+    aside {
+      width: 280px;
+      background: #1e1e1e;
+      color: #e0e0e0;
+      padding: 20px;
+      display: none;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      overflow-y: auto;
+      box-shadow: 4px 0 10px rgba(0,0,0,0.2);
+      z-index: 999;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    aside.active {
+      display: flex;
+      transform: translateX(0);
+    }
+
+    aside h2 {
+      margin-top: 0;
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
+
+    .mobile-search-trigger {
+      display: none;
+      margin-bottom: 16px;
+    }
+
+    .mobile-search-trigger button {
+      background: transparent;
+      border: none;
+      color: #e0e0e0;
+      font-size: 24px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .mobile-search-trigger button:hover {
+      color: #00b7eb;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .search-box button {
+      background: transparent;
+      border: none;
+      color: #e0e0e0;
+      font-size: 18px;
+      cursor: pointer;
+      margin-right: 8px;
+      display: none;
+      transition: color 0.2s;
+    }
+
+    .search-box button:hover {
+      color: #00b7eb;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 6px;
+      border: none;
+      background: #2a2a2a;
+      color: #e0e0e0;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+
+    .search-box input:focus {
+      background: #333333;
+      outline: none;
+    }
+
+    .search-box input::placeholder {
+      color: #888888;
+    }
+
+    .sort-select,
+    .category-select {
+      margin-bottom: 16px;
+      padding: 10px 14px;
+      border-radius: 6px;
+      border: none;
+      background: #2a2a2a;
+      color: #e0e0e0;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .sort-select:hover,
+    .category-select:hover {
+      background: #333333;
+    }
+
+    .site-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .site-list li {
+      margin-bottom: 12px;
+    }
+
+    .site-list a {
+      display: block;
+      color: #e0e0e0;
+      text-decoration: none;
+      padding: 12px 14px;
+      border-radius: 6px;
+      background: #252525;
+      transition: background 0.2s, transform 0.2s;
+      font-size: 14px;
+    }
+
+    .site-list a:hover {
+      background: #007bff;
+      transform: translateX(4px);
+    }
+
+    .site-list .repo-info {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #888888;
+      margin-top: 6px;
+      gap: 8px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: #888888;
+    }
+
+    .error {
+      text-align: center;
+      padding: 20px;
+      color: #ff5555;
+    }
+
+    main {
+      flex: 1;
+      padding: 80px 40px 40px;
+      margin-left: 0;
+      transition: margin-left 0.3s;
+    }
+
+    header h1 {
+      font-size: 32px;
+      margin: 0;
+      background: linear-gradient(90deg, #00ff87, #00b7eb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    section {
+      margin-bottom: 40px;
+    }
+
+    section h2 {
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    section p {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .featured-projects,
+    .big-projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .featured-project,
+    .big-project {
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .featured-project:hover,
+    .big-project:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    }
+
+    .featured-project h3,
+    .big-project h3 {
+      margin-top: 0;
+      font-size: 20px;
+    }
+
+    .featured-project p,
+    .big-project p {
+      font-size: 14px;
+      color: #b0b0b0;
+    }
+
+    .featured-project a,
+    .big-project a,
+    .big-project button,
+    .featured-project button {
+      display: inline-block;
+      margin-top: 12px;
+      color: #00b7eb;
+      text-decoration: none;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .featured-project a:hover,
+    .big-project a:hover,
+    .big-project button:hover,
+    .featured-project button:hover {
+      color: #00ff87;
+    }
+
+    .featured-project a + a,
+    .big-project a + a,
+    .big-project button + a,
+    .featured-project button + a {
+      margin-left: 16px;
+    }
+
+    footer {
+      margin-top: auto;
+      font-size: 14px;
+      color: #888888;
+      text-align: center;
+    }
+
+    body.light-mode {
+      background: #f0f0f0;
+      color: #121212;
+    }
+
+    body.light-mode .top-bar,
+    body.light-mode aside,
+    body.light-mode .featured-project,
+    body.light-mode .big-project,
+    body.light-mode .modal-content,
+    body.light-mode .modal-header,
+    body.light-mode .mobile-menu,
+    body.light-mode .global-search-results {
+      background: #ffffff;
+      color: #121212;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    body.light-mode .site-list a {
+      background: #e0e0e0;
+      color: #121212;
+    }
+
+    body.light-mode .site-list a:hover {
+      background: #007bff;
+      color: #ffffff;
+    }
+
+    body.light-mode .global-search-results .site-list a {
+      background: #e0e0e0;
+      color: #121212;
+    }
+
+    body.light-mode .global-search-results .site-list a:hover {
+      background: #007bff;
+      color: #ffffff;
+    }
+
+    body.light-mode .search-box input,
+    body.light-mode .global-search input,
+    body.light-mode .sort-select,
+    body.light-mode .category-select {
+      background: #f0f0f0;
+      color: #121212;
+    }
+
+    body.light-mode .dropdown-content {
+      background: #ffffff;
+    }
+
+    body.light-mode .dropdown-content a:hover {
+      background: #e0e0e0;
+    }
+
+    body.light-mode #preview-iframe {
+      background: #f0f0f0;
+    }
+
+    @media (max-width: 767px) {
+      .sidebar-toggle,
+      .global-search-trigger,
+      .menu-toggle {
+        display: block;
+      }
+
+      .theme-toggle,
+      .refresh-btn,
+      .share-btn,
+      .fullscreen-btn,
+      .help-btn,
+      .settings-btn,
+      .github-link,
+      .rss-link,
+      .project-count {
+        display: none;
+      }
+
+      .top-nav {
+        display: none;
+      }
+
+      .global-search {
+        margin-left: 0;
+      }
+
+      .global-search input {
+        width: 100%;
+      }
+
+      .global-search-results {
+        top: 60px;
+        width: 100%;
+        background: rgba(30, 30, 30, 0.95);
+      }
+
+      aside {
+        top: 60px;
+        transform: translateX(-100%);
+        width: 90%;
+        z-index: 1001;
+        background: rgba(30, 30, 30, 0.95);
+      }
+
+      aside.active {
+        transform: translateX(0);
+      }
+
+      .site-list a {
+        font-size: 16px;
+        padding: 14px 16px;
+      }
+
+      .site-list .repo-info {
+        font-size: 14px;
+      }
+
+      main {
+        margin-left: 0;
+        padding: 80px 20px 40px;
+      }
+
+      .modal-content {
+        width: 100vw;
+        height: 100vh;
+      }
+
+      .top-bar.search-active .sidebar-toggle,
+      .top-bar.search-active h1,
+      .top-bar.search-active .menu-toggle,
+      .top-bar.search-active .top-bar-right > *:not(.global-search) {
+        display: none;
+      }
+
+      .top-bar.search-active .global-search {
+        display: flex;
+        width: 100%;
+      }
+
+      .top-bar.search-active .global-search button {
+        display: block;
+      }
+
+      .mobile-search-trigger {
+        display: block;
+      }
+
+      .search-box {
+        display: none;
+      }
+
+      .search-box.active {
+        display: flex;
+      }
+
+      .search-box button {
+        display: block;
+      }
+    }
+
+    @media (min-width: 768px) {
+      aside {
+        display: flex;
+        transform: translateX(0);
+        width: 280px;
+      }
+
+      main {
+        margin-left: 280px;
+      }
+
+      .global-search-results {
+        left: 280px;
+        right: 20px;
+      }
+
+      .sidebar-toggle,
+      .menu-toggle {
+        display: none;
+      }
+
+      .global-search {
+        display: flex;
+        width: auto;
+      }
+
+      .global-search button {
+        display: none;
+      }
+
+      .theme-toggle,
+      .refresh-btn,
+      .share-btn,
+      .fullscreen-btn,
+      .help-btn,
+      .settings-btn,
+      .github-link,
+      .rss-link,
+      .project-count {
+        display: block;
+      }
+
+      .mobile-search-trigger {
+        display: none;
+      }
+
+      .search-box button {
+        display: none;
+      }
+
+      .search-box {
+        display: flex;
+      }
+    }
+
+    #sidebar-toggle {
+      margin-right: 70%;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+      <h1>WEBHTM</h1>
+      <nav class="top-nav">
+        <a href="#about">About</a>
+        <a href="#featured">Featured</a>
+        <a href="#big-projects">Big Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <span id="project-count" class="project-count">Projects: 0</span>
+    </div>
+    <div class="top-bar-right">
+      <button class="global-search-trigger" id="global-search-btn"><i class="fas fa-search"></i></button>
+      <div class="global-search">
+        <button id="global-back-btn"><i class="fas fa-arrow-left"></i></button>
+        <input type="text" id="global-search" placeholder="Search sites..." />
+      </div>
+      <button class="menu-toggle" id="menu-toggle"><i class="fas fa-ellipsis-v"></i></button>
+      <div class="mobile-menu" id="mobile-menu">
+        <a href="https://github.com/webhtm" target="_blank" class="github-link"><i class="fab fa-github"></i> GitHub</a>
+        <a href="https://example.com/rss.xml" target="_blank" class="rss-link"><i class="fas fa-rss"></i> RSS</a>
+        <button id="refresh-btn" class="refresh-btn"><i class="fas fa-sync-alt"></i> Refresh</button>
+        <button id="share-btn" class="share-btn"><i class="fas fa-share-alt"></i> Share</button>
+        <button id="fullscreen-btn" class="fullscreen-btn"><i class="fas fa-expand"></i> Fullscreen</button>
+        <button id="theme-toggle" class="theme-toggle"><i class="fas fa-moon"></i> Toggle Theme</button>
+        <button id="help-btn" class="help-btn"><i class="fas fa-question-circle"></i> Help</button>
+        
+        <a href="#about">About</a>
+        <a href="#featured">Featured</a>
+        <a href="#big-projects">Big Projects</a>
+        <a href="#contact">Contact</a>
+        <span id="mobile-project-count" class="project-count">Projects: 0</span>
+      </div>
+      <div class="settings-menu">
+        <button id="settings-btn-desktop" class="settings-btn"><i class="fas fa-cog"></i></button>
+        <div id="settings-dropdown" class="dropdown-content">
+          <a href="#" id="sort-name">Sort by Name</a>
+          <a href="#" id="sort-stars">Sort by Stars</a>
+          <a href="#" id="sort-updated">Sort by Updated</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="global-search-results" id="global-search-results"></div>
+
+  <aside>
+    <h2>My GitHub Sites</h2>
+    <div class="mobile-search-trigger">
+      <button id="mobile-search-btn"><i class="fas fa-search"></i></button>
+    </div>
+    <div class="search-box">
+      <button id="back-btn"><i class="fas fa-arrow-left"></i></button>
+      <input type="text" id="search" placeholder="Search sites..." />
+    </div>
+    <select id="category-select" class="category-select">
+      <option value="all">All Categories</option>
+      <option value="game">Games</option>
+      <option value="app">Apps</option>
+      <option value="tool">Tools</option>
+      <option value="other">Other</option>
+    </select>
+    <select id="sort-select" class="sort-select">
+      <option value="name">Sort by Name (A-Z)</option>
+      <option value="name-desc">Sort by Name (Z-A)</option>
+      <option value="stars">Sort by Stars (High to Low)</option>
+      <option value="stars-asc">Sort by Stars (Low to High)</option>
+      <option value="updated">Sort by Updated (Recent First)</option>
+      <option value="updated-asc">Sort by Updated (Oldest First)</option>
+      <option value="forks">Sort by Forks (High to Low)</option>
+    </select>
+    <ul class="site-list" id="site-list"></ul>
+  </aside>
+
+  <main>
+    <header>
+      <h1>Welcome to Webhtm</h1>
+    </header>
+    <section id="about">
+      <h2>About</h2>
+      <p>This is my personal landing page where you can find links to all of my GitHub Pages projects. Each project is a live site, showcased on the sidebar for quick access.</p>
+    </section>
+    <section id="featured">
+      <h2>Featured Projects</h2>
+      <div class="featured-projects" id="featured-projects"></div>
+    </section>
+    <section id="big-projects">
+      <h2>Big Projects Highlights</h2>
+      <p>Highlights of projects with large main HTML files (60KB or more).</p>
+      <div class="big-projects" id="big-projects-list"></div>
+    </section>
+    <section>
+      <h2>Projects Highlight</h2>
+      <p>I build minimal, fast-loading, and creative web projects. Use the sidebar to explore them all.</p>
+    </section>
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>Want to collaborate or reach out? You can find me on GitHub as <strong>webhtm</strong>.</p>
+    </section>
+    <footer>
+      <p>Total projects: <span id="total-projects">0</span> | <a href="https://github.com/webhtm" target="_blank">View GitHub Profile</a></p>
+    </footer>
+  </main>
+
+  <div id="help-modal" class="modal">
+    <div class="modal-content">
+      <span id="close-help" class="close">&times;</span>
+      <h2>Help & Tips</h2>
+      <p>Use the sidebar to browse projects. Search, sort, and filter as needed. For previews, use the preview button to view in a full-screen modal.</p>
+    </div>
+  </div>
+
+  <div id="preview-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="modal-title" id="modal-title">Project Preview</span>
+        <div class="modal-actions">
+          <button class="modal-reload" id="modal-reload"><i class="fas fa-sync-alt"></i></button>
+          <button class="modal-close" id="close-preview"><i class="fas fa-times"></i></button>
+        </div>
+      </div>
+      <iframe id="preview-iframe" frameborder="0"></iframe>
+    </div>
+  </div>
+
+  <script>
+    const GUSER = 'webhtm';
+    const TOKEN = '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';
+    const siteList = document.getElementById('site-list');
+    const searchInput = document.getElementById('search');
+    const globalSearchInput = document.getElementById('global-search');
+    const globalSearchResults = document.getElementById('global-search-results');
+    const categorySelect = document.getElementById('category-select');
+    const sortSelect = document.getElementById('sort-select');
+    const totalProjects = document.getElementById('total-projects');
+    const projectCount = document.getElementById('project-count');
+    const mobileProjectCount = document.getElementById('mobile-project-count');
+    const mobileSearchBtn = document.getElementById('mobile-search-btn');
+    const backBtn = document.getElementById('back-btn');
+    const searchBox = document.querySelector('.search-box');
+    const mobileSearchTrigger = document.querySelector('.mobile-search-trigger');
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+    const aside = document.querySelector('aside');
+    const globalSearchBtn = document.getElementById('global-search-btn');
+    const globalBackBtn = document.getElementById('global-back-btn');
+    const topBar = document.querySelector('.top-bar');
+    const featuredProjects = document.getElementById('featured-projects');
+    const bigProjectsList = document.getElementById('big-projects-list');
+    const themeToggle = document.getElementById('theme-toggle');
+    const refreshBtn = document.getElementById('refresh-btn');
+    const shareBtn = document.getElementById('share-btn');
+    const fullscreenBtn = document.getElementById('fullscreen-btn');
+    const helpBtn = document.getElementById('help-btn');
+    const helpModal = document.getElementById('help-modal');
+    const closeHelp = document.getElementById('close-help');
+    const previewModal = document.getElementById('preview-modal');
+    const closePreview = document.getElementById('close-preview');
+    const modalReload = document.getElementById('modal-reload');
+    const modalTitle = document.getElementById('modal-title');
+    const previewIframe = document.getElementById('preview-iframe');
+    const sortName = document.getElementById('sort-name');
+    const sortStars = document.getElementById('sort-stars');
+    const sortUpdated = document.getElementById('sort-updated');
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const settingsBtnDesktop = document.getElementById('settings-btn-desktop');
+
+    let currentRepos = [];
+    let sortKey = 'name';
+    let categoryKey = 'all';
+    let currentPreviewUrl = '';
+
+    function getCategory(repo) {
+      const name = repo.name.toLowerCase();
+      const desc = (repo.description || '').toLowerCase();
+      const language = (repo.language || '').toLowerCase();
+
+      const gameKeywords = ['game', 'puzzle', 'adventure', 'rpg', 'shooter', 'platformer', 'chess', 'tic-tac-toe', 'snake', 'flappy', 'minesweeper', 'guess', 'ball', 'bomb', 'pairs', 'blitz', '8-ball', 'simulator', 'arcade'];
+      const appKeywords = ['app', 'application', 'editor', 'picker', 'download', 'downloader', 'converter', 'viewer', 'manager', 'home page', 'img editor', 'finder', 'drive', 'share', 'vmware', 'calculator', 'todo', 'list', 'note', 'tracker'];
+      const toolKeywords = ['tool', 'utility', 'generator', 'builder', 'tester', 'analyzer', 'script', 'api', 'library', 'framework', 'cli', 'command', 'helper'];
+
+      if (gameKeywords.some(kw => name.includes(kw) || desc.includes(kw))) {
+        return 'game';
+      } else if (appKeywords.some(kw => name.includes(kw) || desc.includes(kw))) {
+        return 'app';
+      } else if (toolKeywords.some(kw => name.includes(kw) || desc.includes(kw)) || language.includes('python') || language.includes('javascript') && desc.includes('tool')) {
+        return 'tool';
+      } else {
+        return 'other';
+      }
+    }
+
+    async function loadRepos() {
+      siteList.innerHTML = '<div class="loading">Loading...</div>';
+      try {
+        const headers = {
+          'User-Agent': `webhtm-landing-page/${GUSER}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'Authorization': `token ${TOKEN}`
+        };
+        const res = await fetch(`https://api.github.com/users/${GUSER}/repos?per_page=100`, { headers });
+        if (!res.ok) {
+          const errorData = await res.json().catch(() => ({}));
+          let errorMessage = `GitHub API error: ${res.status} ${res.statusText}`;
+          if (res.status === 403) {
+            errorMessage = errorData.message && errorData.message.includes('rate limit exceeded')
+              ? 'GitHub API rate limit exceeded. Please check your Personal Access Token.'
+              : 'Forbidden: Invalid token or insufficient permissions.';
+          } else if (res.status === 401) {
+            errorMessage = 'Unauthorized: Invalid Personal Access Token.';
+          }
+          throw new Error(errorMessage);
+        }
+        const repos = await res.json();
+        if (!Array.isArray(repos)) {
+          throw new Error('Unexpected API response: not an array');
+        }
+        currentRepos = await Promise.all(repos
+          .filter(r => r.name !== `${GUSER}.github.io` && !r.archived)
+          .map(async (repo) => {
+            try {
+              const fileRes = await fetch(`https://api.github.com/repos/${GUSER}/${repo.name}/contents/index.html`, { headers });
+              if (fileRes.ok) {
+                const fileData = await fileRes.json();
+                repo.htmlSize = fileData.size || 0;
+              } else {
+                repo.htmlSize = 0;
+              }
+            } catch (e) {
+              repo.htmlSize = 0;
+            }
+            return repo;
+          }));
+        totalProjects.textContent = currentRepos.length;
+        projectCount.textContent = `Projects: ${currentRepos.length}`;
+        mobileProjectCount.textContent = `Projects: ${currentRepos.length}`;
+        renderWithFilterAndSort();
+        renderFeatured();
+        renderBigProjects();
+      } catch (error) {
+        console.error('Error loading repositories:', error);
+        siteList.innerHTML = `<div class="error">Failed to load projects: ${error.message}</div>`;
+        totalProjects.textContent = '0';
+        projectCount.textContent = 'Projects: 0';
+        mobileProjectCount.textContent = 'Projects: 0';
+        featuredProjects.innerHTML = '<p>Error loading featured projects.</p>';
+        bigProjectsList.innerHTML = '<p>Error loading big projects.</p>';
+      }
+    }
+
+    function sortRepos(repos) {
+      let sorted = [...repos];
+      if (sortKey === 'name') {
+        sorted.sort((a, b) => a.name.localeCompare(b.name));
+      } else if (sortKey === 'name-desc') {
+        sorted.sort((a, b) => b.name.localeCompare(a.name));
+      } else if (sortKey === 'stars') {
+        sorted.sort((a, b) => b.stargazers_count - a.stargazers_count);
+      } else if (sortKey === 'stars-asc') {
+        sorted.sort((a, b) => a.stargazers_count - b.stargazers_count);
+      } else if (sortKey === 'updated') {
+        sorted.sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at));
+      } else if (sortKey === 'updated-asc') {
+        sorted.sort((a, b) => new Date(a.pushed_at) - new Date(b.pushed_at));
+      } else if (sortKey === 'forks') {
+        sorted.sort((a, b) => b.forks_count - a.forks_count);
+      }
+      return sorted;
+    }
+
+    function renderWithFilterAndSort(term = '') {
+      const lowerTerm = term.toLowerCase();
+      let filtered = currentRepos.filter(r => 
+        (r.name.toLowerCase().includes(lowerTerm) || 
+         (r.description || '').toLowerCase().includes(lowerTerm) ||
+         (r.language || '').toLowerCase().includes(lowerTerm)) &&
+        (categoryKey === 'all' || getCategory(r) === categoryKey)
+      );
+      filtered = sortRepos(filtered);
+      if (topBar.classList.contains('search-active') || globalSearchInput.value) {
+        renderSites(filtered, globalSearchResults);
+        globalSearchResults.classList.add('active');
+        siteList.innerHTML = '';
+      } else {
+        renderSites(filtered, siteList);
+        globalSearchResults.classList.remove('active');
+      }
+    }
+
+    function renderSites(repos, target) {
+      target.innerHTML = '';
+      target.classList.add('site-list');
+      if (repos.length === 0) {
+        target.innerHTML = '<div class="loading">No projects found.</div>';
+        return;
+      }
+      repos.forEach(r => {
+        const siteUrl = `https://${GUSER}.github.io/${r.name}`;
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = siteUrl;
+        a.target = '_blank';
+        a.textContent = r.name;
+        a.title = r.description || 'No description available';
+        li.appendChild(a);
+        const info = document.createElement('div');
+        info.className = 'repo-info';
+        info.innerHTML = `
+          <span>⭐ ${r.stargazers_count}</span>
+          <span>🍴 ${r.forks_count}</span>
+          <span>👀 ${r.watchers_count}</span>
+          <span>Lang: ${r.language || 'N/A'}</span>
+          <span>Updated: ${new Date(r.pushed_at).toLocaleDateString()}</span>
+          <span>Size: ${(r.htmlSize / 1024).toFixed(2)} KB</span>
+        `;
+        li.appendChild(info);
+        target.appendChild(li);
+      });
+    }
+
+    function renderFeatured() {
+      const topRepos = sortRepos(currentRepos).slice(0, 4);
+      featuredProjects.innerHTML = '';
+      if (topRepos.length === 0) {
+        featuredProjects.innerHTML = '<p>No featured projects available.</p>';
+        return;
+      }
+      topRepos.forEach(r => {
+        const div = document.createElement('div');
+        div.className = 'featured-project';
+        const h3 = document.createElement('h3');
+        h3.textContent = r.name;
+        div.appendChild(h3);
+        const p = document.createElement('p');
+        p.textContent = r.description || 'No description available';
+        div.appendChild(p);
+        const previewBtn = document.createElement('button');
+        previewBtn.textContent = 'Preview';
+        previewBtn.onclick = () => {
+          openPreview(r.name, `https://${GUSER}.github.io/${r.name}/`);
+        };
+        div.appendChild(previewBtn);
+        const ghLink = document.createElement('a');
+        ghLink.href = r.html_url;
+        ghLink.target = '_blank';
+        ghLink.textContent = 'View on GitHub';
+        div.appendChild(ghLink);
+        featuredProjects.appendChild(div);
+      });
+    }
+
+    function renderBigProjects() {
+      const bigRepos = currentRepos.filter(r => r.htmlSize > 60000).sort((a, b) => b.htmlSize - a.htmlSize).slice(0, 4);
+      bigProjectsList.innerHTML = '';
+      if (bigRepos.length === 0) {
+        bigProjectsList.innerHTML = '<p>No big projects found.</p>';
+        return;
+      }
+      bigRepos.forEach(r => {
+        const div = document.createElement('div');
+        div.className = 'big-project';
+        const h3 = document.createElement('h3');
+        h3.textContent = r.name;
+        div.appendChild(h3);
+        const p = document.createElement('p');
+        p.textContent = `${r.description || 'No description available'} (HTML Size: ${(r.htmlSize / 1024).toFixed(2)} KB)`;
+        div.appendChild(p);
+        const previewBtn = document.createElement('button');
+        previewBtn.textContent = 'Preview';
+        previewBtn.onclick = () => {
+          openPreview(r.name, `https://${GUSER}.github.io/${r.name}/`);
+        };
+        div.appendChild(previewBtn);
+        const ghLink = document.createElement('a');
+        ghLink.href = r.html_url;
+        ghLink.target = '_blank';
+        ghLink.textContent = 'View on GitHub';
+        div.appendChild(ghLink);
+        bigProjectsList.appendChild(div);
+      });
+    }
+
+    function openPreview(title, url) {
+      modalTitle.textContent = title;
+      previewIframe.src = url;
+      currentPreviewUrl = url;
+      previewModal.style.display = 'block';
+    }
+
+    let searchTimeout;
+    function debouncedRender(term) {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => renderWithFilterAndSort(term), 300);
+    }
+
+    searchInput.addEventListener('input', () => {
+      const term = searchInput.value;
+      globalSearchInput.value = term;
+      debouncedRender(term);
+    });
+
+    globalSearchInput.addEventListener('input', () => {
+      const term = globalSearchInput.value;
+      searchInput.value = term;
+      debouncedRender(term);
+    });
+
+    categorySelect.addEventListener('change', () => {
+      categoryKey = categorySelect.value;
+      renderWithFilterAndSort(searchInput.value);
+    });
+
+    sortSelect.addEventListener('change', () => {
+      sortKey = sortSelect.value;
+      renderWithFilterAndSort(searchInput.value);
+    });
+
+    mobileSearchBtn.addEventListener('click', () => {
+      searchBox.classList.add('active');
+      mobileSearchTrigger.style.display = 'none';
+    });
+
+    backBtn.addEventListener('click', () => {
+      searchBox.classList.remove('active');
+      mobileSearchTrigger.style.display = 'block';
+    });
+
+    sidebarToggle.addEventListener('click', () => {
+      aside.classList.toggle('active');
+      mobileMenu.classList.remove('active');
+      globalSearchResults.classList.remove('active');
+    });
+
+    globalSearchBtn.addEventListener('click', () => {
+      topBar.classList.add('search-active');
+      globalSearchInput.focus();
+      mobileMenu.classList.remove('active');
+    });
+
+    globalBackBtn.addEventListener('click', () => {
+      topBar.classList.remove('search-active');
+      globalSearchInput.value = '';
+      searchInput.value = '';
+      globalSearchResults.classList.remove('active');
+      renderWithFilterAndSort('');
+    });
+
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
+      aside.classList.remove('active');
+      globalSearchResults.classList.remove('active');
+    });
+
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('light-mode');
+      const icon = themeToggle.querySelector('i');
+      icon.classList.toggle('fa-moon');
+      icon.classList.toggle('fa-sun');
+    });
+
+    refreshBtn.addEventListener('click', () => {
+      loadRepos();
+      mobileMenu.classList.remove('active');
+    });
+
+    shareBtn.addEventListener('click', async () => {
+      const shareData = {
+        title: 'Webhtm Landing Page',
+        text: 'Check out my GitHub projects!',
+        url: window.location.href
+      };
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        navigator.clipboard.writeText(window.location.href);
+        alert('URL copied to clipboard!');
+      }
+      mobileMenu.classList.remove('active');
+    });
+
+    fullscreenBtn.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+        fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
+      } else {
+        document.exitFullscreen();
+        fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+      }
+      mobileMenu.classList.remove('active');
+    });
+
+    helpBtn.addEventListener('click', () => {
+      helpModal.style.display = 'block';
+      mobileMenu.classList.remove('active');
+    });
+
+    closeHelp.addEventListener('click', () => {
+      helpModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (e) => {
+      if (e.target === helpModal) {
+        helpModal.style.display = 'none';
+      }
+      if (e.target === previewModal) {
+        previewModal.style.display = 'none';
+      }
+      if (e.target === aside && aside.classList.contains('active')) {
+        aside.classList.remove('active');
+      }
+      if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target) && mobileMenu.classList.contains('active')) {
+        mobileMenu.classList.remove('active');
+      }
+      if (!topBar.contains(e.target) && !globalSearchResults.contains(e.target) && globalSearchResults.classList.contains('active')) {
+        globalSearchResults.classList.remove('active');
+        globalSearchInput.value = '';
+        searchInput.value = '';
+        renderWithFilterAndSort('');
+      }
+    });
+
+    closePreview.addEventListener('click', () => {
+      previewModal.style.display = 'none';
+      previewIframe.src = '';
+    });
+
+    modalReload.addEventListener('click', () => {
+      previewIframe.src = currentPreviewUrl;
+    });
+
+    sortName.addEventListener('click', (e) => {
+      e.preventDefault();
+      sortSelect.value = 'name';
+      sortKey = 'name';
+      renderWithFilterAndSort(searchInput.value);
+      mobileMenu.classList.remove('active');
+    });
+
+    sortStars.addEventListener('click', (e) => {
+      e.preventDefault();
+      sortSelect.value = 'stars';
+      sortKey = 'stars';
+      renderWithFilterAndSort(searchInput.value);
+      mobileMenu.classList.remove('active');
+    });
+
+    sortUpdated.addEventListener('click', (e) => {
+      e.preventDefault();
+      sortSelect.value = 'updated';
+      sortKey = 'updated';
+      renderWithFilterAndSort(searchInput.value);
+      mobileMenu.classList.remove('active');
+    });
+
+    loadRepos();
+  </script>
+</body>
+</html>
