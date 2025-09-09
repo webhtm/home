@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -887,7 +888,7 @@
   <div class="global-search-results" id="global-search-results"></div>
 
   <aside>
-    <h2>My GitHub Sites</h2>
+    <h2>My Websites</h2>
     <div class="mobile-search-trigger">
       <button id="mobile-search-btn"><i class="fas fa-search"></i></button>
     </div>
@@ -920,7 +921,7 @@
     </header>
     <section id="about">
       <h2>About</h2>
-      <p>This is my personal landing page where you can find links to all of my GitHub Pages projects. Each project is a live site, showcased on the sidebar for quick access.</p>
+      <p>This is my lander page where my websites can be easily found.</p>
     </section>
     <section id="featured">
       <h2>Featured Projects</h2>
@@ -966,8 +967,33 @@
   </div>
 
   <script>
+    let TOKEN = "";   // global token
+
+async function loadConstant() {
+  try {
+    const response = await fetch("https://ia601003.us.archive.org/17/items/pat_20250909/pat.txt", {
+      method: "GET",
+      headers: { "Accept": "text/plain" }
+    });
+
+    if (!response.ok) throw new Error("Failed to load PAT: " + response.status);
+
+    TOKEN = (await response.text()).trim();
+    console.log("✅ PAT loaded:", TOKEN);
+
+    // Call your repo loader after token is ready
+    if (typeof loadRepos === "function") {
+      loadRepos();
+    }
+
+  } catch (err) {
+    console.error("❌ Error loading PAT:", err);
+  }
+}
+
+// Start
+loadConstant();
     const GUSER = 'webhtm';
-    const TOKEN = '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;
     const siteList = document.getElementById('site-list');
     const searchInput = document.getElementById('search');
     const globalSearchInput = document.getElementById('global-search');
