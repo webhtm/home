@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -78,8 +77,8 @@
       align-items: center;
     }
 
-    .sidebar-toggle,
-    .global-search-trigger,
+    .sites-btn,
+    .search-btn,
     .menu-toggle {
       background: transparent;
       border: none;
@@ -87,11 +86,11 @@
       font-size: 24px;
       cursor: pointer;
       transition: color 0.2s;
-      margin-left: 16px;
+      margin-left: 20px;
     }
 
-    .sidebar-toggle:hover,
-    .global-search-trigger:hover,
+    .sites-btn:hover,
+    .search-btn:hover,
     .menu-toggle:hover {
       color: #00b7eb;
     }
@@ -168,145 +167,6 @@
       color: #00b7eb;
     }
 
-    .global-search {
-      display: none;
-      align-items: center;
-      margin-left: auto;
-    }
-
-    .global-search button {
-      background: transparent;
-      border: none;
-      color: #e0e0e0;
-      font-size: 24px;
-      cursor: pointer;
-      margin-right: 8px;
-      display: none;
-      transition: color 0.2s;
-    }
-
-    .global-search button:hover {
-      color: #00b7eb;
-    }
-
-    .global-search input {
-      width: 200px;
-      padding: 10px 14px;
-      border-radius: 6px;
-      border: none;
-      background: #2a2a2a;
-      color: #e0e0e0;
-      font-size: 14px;
-      transition: background 0.2s;
-    }
-
-    .global-search input:focus {
-      background: #333333;
-      outline: none;
-    }
-
-    .global-search input::placeholder {
-      color: #888888;
-    }
-
-    .global-search-results {
-      position: absolute;
-      top: 60px;
-      left: 0;
-      right: 0;
-      background: #1e1e1e;
-      max-height: 400px;
-      overflow-y: auto;
-      z-index: 1000;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      border-radius: 0 0 6px 6px;
-      display: none;
-      padding: 10px;
-    }
-
-    .global-search-results.active {
-      display: block;
-    }
-
-    .global-search-results .site-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .global-search-results .site-list li {
-      margin-bottom: 12px;
-    }
-
-    .global-search-results .site-list a {
-      display: block;
-      color: #e0e0e0;
-      text-decoration: none;
-      padding: 12px 14px;
-      border-radius: 6px;
-      background: #252525;
-      transition: background 0.2s, transform 0.2s;
-      font-size: 14px;
-    }
-
-    .global-search-results .site-list a:hover {
-      background: #007bff;
-      transform: translateX(4px);
-    }
-
-    .global-search-results .site-list .repo-info {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      font-size: 12px;
-      color: #888888;
-      margin-top: 6px;
-      gap: 8px;
-    }
-
-    .global-search-results .loading,
-    .global-search-results .error {
-      text-align: center;
-      padding: 20px;
-      color: #888888;
-    }
-
-    .global-search-results .error {
-      color: #ff5555;
-    }
-
-    .settings-menu {
-      position: relative;
-      margin-left: 16px;
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      right: 0;
-      background: #1e1e1e;
-      min-width: 160px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-      z-index: 1;
-      border-radius: 6px;
-    }
-
-    .dropdown-content a {
-      color: #e0e0e0;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-      transition: background 0.2s;
-    }
-
-    .dropdown-content a:hover {
-      background: #333333;
-    }
-
-    .settings-menu:hover .dropdown-content {
-      display: block;
-    }
-
     .modal {
       display: none;
       position: fixed;
@@ -370,71 +230,16 @@
       background: #fff;
     }
 
-    aside {
-      width: 280px;
-      background: #1e1e1e;
-      color: #e0e0e0;
+    .sites-content {
       padding: 20px;
-      display: none;
-      flex-direction: column;
-      position: fixed;
-      top: 0;
-      left: 0;
-      bottom: 0;
       overflow-y: auto;
-      box-shadow: 4px 0 10px rgba(0,0,0,0.2);
-      z-index: 999;
-      transition: transform 0.3s ease-in-out;
-    }
-
-    aside.active {
-      display: flex;
-      transform: translateX(0);
-    }
-
-    aside h2 {
-      margin-top: 0;
-      font-size: 20px;
-      margin-bottom: 16px;
-    }
-
-    .mobile-search-trigger {
-      display: none;
-      margin-bottom: 16px;
-    }
-
-    .mobile-search-trigger button {
-      background: transparent;
-      border: none;
-      color: #e0e0e0;
-      font-size: 24px;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-
-    .mobile-search-trigger button:hover {
-      color: #00b7eb;
+      flex: 1;
     }
 
     .search-box {
       display: flex;
       align-items: center;
-      margin-bottom: 16px;
-    }
-
-    .search-box button {
-      background: transparent;
-      border: none;
-      color: #e0e0e0;
-      font-size: 18px;
-      cursor: pointer;
-      margin-right: 8px;
-      display: none;
-      transition: color 0.2s;
-    }
-
-    .search-box button:hover {
-      color: #00b7eb;
+      margin-bottom: 20px;
     }
 
     .search-box input {
@@ -442,14 +247,14 @@
       padding: 10px 14px;
       border-radius: 6px;
       border: none;
-      background: #2a2a2a;
+      background: transparent;
       color: #e0e0e0;
       font-size: 14px;
       transition: background 0.2s;
     }
 
     .search-box input:focus {
-      background: #333333;
+      background: rgba(51,51,51,0.5);
       outline: none;
     }
 
@@ -459,20 +264,22 @@
 
     .sort-select,
     .category-select {
-      margin-bottom: 16px;
+      margin-bottom: 20px;
       padding: 10px 14px;
       border-radius: 6px;
       border: none;
-      background: #2a2a2a;
+      background: transparent;
       color: #e0e0e0;
       font-size: 14px;
       cursor: pointer;
       transition: background 0.2s;
+      width: 100%;
+      appearance: none;
     }
 
     .sort-select:hover,
     .category-select:hover {
-      background: #333333;
+      background: rgba(51,51,51,0.5);
     }
 
     .site-list {
@@ -491,7 +298,8 @@
       text-decoration: none;
       padding: 12px 14px;
       border-radius: 6px;
-      background: #252525;
+      background: transparent;
+      border: none;
       transition: background 0.2s, transform 0.2s;
       font-size: 14px;
     }
@@ -539,12 +347,12 @@
     }
 
     section {
-      margin-bottom: 40px;
+      margin-bottom: 60px;
     }
 
     section h2 {
       font-size: 24px;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     section p {
@@ -552,11 +360,15 @@
       line-height: 1.6;
     }
 
+    #big-projects p {
+      margin-bottom: 10px;
+    }
+
     .featured-projects,
     .big-projects {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
+      gap: 30px;
     }
 
     .featured-project,
@@ -627,21 +439,20 @@
     }
 
     body.light-mode .top-bar,
-    body.light-mode aside,
     body.light-mode .featured-project,
     body.light-mode .big-project,
     body.light-mode .modal-content,
     body.light-mode .modal-header,
-    body.light-mode .mobile-menu,
-    body.light-mode .global-search-results {
+    body.light-mode .mobile-menu {
       background: #ffffff;
       color: #121212;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
     body.light-mode .site-list a {
-      background: #e0e0e0;
+      background: transparent;
       color: #121212;
+      border: none;
     }
 
     body.light-mode .site-list a:hover {
@@ -649,49 +460,26 @@
       color: #ffffff;
     }
 
-    body.light-mode .global-search-results .site-list a {
-      background: #e0e0e0;
-      color: #121212;
-    }
-
-    body.light-mode .global-search-results .site-list a:hover {
-      background: #007bff;
-      color: #ffffff;
-    }
-
     body.light-mode .search-box input,
-    body.light-mode .global-search input,
     body.light-mode .sort-select,
     body.light-mode .category-select {
-      background: #f0f0f0;
+      background: transparent;
       color: #121212;
+      border: none;
     }
 
-    body.light-mode .dropdown-content {
-      background: #ffffff;
-    }
-
-    body.light-mode .dropdown-content a:hover {
-      background: #e0e0e0;
-    }
-
-    body.light-mode #preview-iframe {
-      background: #f0f0f0;
+    body.light-mode .search-box input:focus,
+    body.light-mode .sort-select:hover,
+    body.light-mode .category-select:hover {
+      background: rgba(224,224,224,0.5);
     }
 
     @media (max-width: 767px) {
-      .sidebar-toggle,
-      .global-search-trigger,
-      .menu-toggle {
-        display: block;
-      }
-
       .theme-toggle,
       .refresh-btn,
       .share-btn,
       .fullscreen-btn,
       .help-btn,
-      .settings-btn,
       .github-link,
       .rss-link,
       .project-count {
@@ -700,32 +488,6 @@
 
       .top-nav {
         display: none;
-      }
-
-      .global-search {
-        margin-left: 0;
-      }
-
-      .global-search input {
-        width: 100%;
-      }
-
-      .global-search-results {
-        top: 60px;
-        width: 100%;
-        background: rgba(30, 30, 30, 0.95);
-      }
-
-      aside {
-        top: 60px;
-        transform: translateX(-100%);
-        width: 90%;
-        z-index: 1001;
-        background: rgba(30, 30, 30, 0.95);
-      }
-
-      aside.active {
-        transform: translateX(0);
       }
 
       .site-list a {
@@ -738,7 +500,6 @@
       }
 
       main {
-        margin-left: 0;
         padding: 80px 20px 40px;
       }
 
@@ -746,67 +507,22 @@
         width: 100vw;
         height: 100vh;
       }
-
-      .top-bar.search-active .sidebar-toggle,
-      .top-bar.search-active h1,
-      .top-bar.search-active .menu-toggle,
-      .top-bar.search-active .top-bar-right > *:not(.global-search) {
-        display: none;
-      }
-
-      .top-bar.search-active .global-search {
-        display: flex;
-        width: 100%;
-      }
-
-      .top-bar.search-active .global-search button {
-        display: block;
-      }
-
-      .mobile-search-trigger {
-        display: block;
-      }
-
-      .search-box {
-        display: none;
-      }
-
-      .search-box.active {
-        display: flex;
-      }
-
-      .search-box button {
-        display: block;
-      }
     }
 
     @media (min-width: 768px) {
-      aside {
-        display: flex;
-        transform: translateX(0);
-        width: 280px;
-      }
-
       main {
-        margin-left: 280px;
+        max-width: 1200px;
+        margin: 0 auto;
       }
 
-      .global-search-results {
-        left: 280px;
-        right: 20px;
+      #sites-modal .modal-content {
+        max-width: 800px;
+        margin: 5% auto;
+        height: auto;
+        border-radius: 8px;
       }
 
-      .sidebar-toggle,
       .menu-toggle {
-        display: none;
-      }
-
-      .global-search {
-        display: flex;
-        width: auto;
-      }
-
-      .global-search button {
         display: none;
       }
 
@@ -815,116 +531,57 @@
       .share-btn,
       .fullscreen-btn,
       .help-btn,
-      .settings-btn,
       .github-link,
       .rss-link,
       .project-count {
         display: block;
       }
-
-      .mobile-search-trigger {
-        display: none;
-      }
-
-      .search-box button {
-        display: none;
-      }
-
-      .search-box {
-        display: flex;
-      }
-    }
-
-    #sidebar-toggle {
-      margin-right: 70%;
     }
   </style>
 </head>
 <body>
   <div class="top-bar">
     <div class="top-bar-left">
-      <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
       <h1>WEBHTM</h1>
       <nav class="top-nav">
         <a href="#about">About</a>
-        <a href="#featured">Featured</a>
+        <a href="#new-projects">New Projects</a>
         <a href="#big-projects">Big Projects</a>
         <a href="#contact">Contact</a>
       </nav>
       <span id="project-count" class="project-count">Projects: 0</span>
     </div>
     <div class="top-bar-right">
-      <button class="global-search-trigger" id="global-search-btn"><i class="fas fa-search"></i></button>
-      <div class="global-search">
-        <button id="global-back-btn"><i class="fas fa-arrow-left"></i></button>
-        <input type="text" id="global-search" placeholder="Search sites..." />
-      </div>
+      <button id="sites-btn" class="sites-btn"><i class="fas fa-list"></i></button>
+      <button id="search-btn" class="search-btn"><i class="fas fa-search"></i></button>
       <button class="menu-toggle" id="menu-toggle"><i class="fas fa-ellipsis-v"></i></button>
       <div class="mobile-menu" id="mobile-menu">
         <a href="https://github.com/webhtm" target="_blank" class="github-link"><i class="fab fa-github"></i> GitHub</a>
-        <a href="https://example.com/rss.xml" target="_blank" class="rss-link"><i class="fas fa-rss"></i> RSS</a>
         <button id="refresh-btn" class="refresh-btn"><i class="fas fa-sync-alt"></i> Refresh</button>
         <button id="share-btn" class="share-btn"><i class="fas fa-share-alt"></i> Share</button>
         <button id="fullscreen-btn" class="fullscreen-btn"><i class="fas fa-expand"></i> Fullscreen</button>
         <button id="theme-toggle" class="theme-toggle"><i class="fas fa-moon"></i> Toggle Theme</button>
         <button id="help-btn" class="help-btn"><i class="fas fa-question-circle"></i> Help</button>
-        
         <a href="#about">About</a>
-        <a href="#featured">Featured</a>
+        <a href="#new-projects">New Projects</a>
         <a href="#big-projects">Big Projects</a>
         <a href="#contact">Contact</a>
         <span id="mobile-project-count" class="project-count">Projects: 0</span>
       </div>
-      <div class="settings-menu">
-        <button id="settings-btn-desktop" class="settings-btn"><i class="fas fa-cog"></i></button>
-        <div id="settings-dropdown" class="dropdown-content">
-          <a href="#" id="sort-name">Sort by Name</a>
-          <a href="#" id="sort-stars">Sort by Stars</a>
-          <a href="#" id="sort-updated">Sort by Updated</a>
-        </div>
-      </div>
     </div>
   </div>
-  <div class="global-search-results" id="global-search-results"></div>
-
-  <aside>
-    <h2>My Websites</h2>
-    <div class="mobile-search-trigger">
-      <button id="mobile-search-btn"><i class="fas fa-search"></i></button>
-    </div>
-    <div class="search-box">
-      <button id="back-btn"><i class="fas fa-arrow-left"></i></button>
-      <input type="text" id="search" placeholder="Search sites..." />
-    </div>
-    <select id="category-select" class="category-select">
-      <option value="all">All Categories</option>
-      <option value="game">Games</option>
-      <option value="app">Apps</option>
-      <option value="tool">Tools</option>
-      <option value="other">Other</option>
-    </select>
-    <select id="sort-select" class="sort-select">
-      <option value="name">Sort by Name (A-Z)</option>
-      <option value="name-desc">Sort by Name (Z-A)</option>
-      <option value="stars">Sort by Stars (High to Low)</option>
-      <option value="stars-asc">Sort by Stars (Low to High)</option>
-      <option value="updated">Sort by Updated (Recent First)</option>
-      <option value="updated-asc">Sort by Updated (Oldest First)</option>
-      <option value="forks">Sort by Forks (High to Low)</option>
-    </select>
-    <ul class="site-list" id="site-list"></ul>
-  </aside>
 
   <main>
     <header>
-      <h1>Welcome to Webhtm</h1>
+      <h1>Welcome to WEBHTM</h1>
     </header>
     <section id="about">
       <h2>About</h2>
-      <p>This is my lander page where my websites can be easily found.</p>
+      <p>This is my landing page where my websites can be easily found.</p>
+      <p>I mostly develop web apps, games and tools that are fun and useful</p>
     </section>
-    <section id="featured">
-      <h2>Featured Projects</h2>
+    <section id="new-projects">
+      <h2>New Projects</h2>
       <div class="featured-projects" id="featured-projects"></div>
     </section>
     <section id="big-projects">
@@ -934,7 +591,7 @@
     </section>
     <section>
       <h2>Projects Highlight</h2>
-      <p>I build minimal, fast-loading, and creative web projects. Use the sidebar to explore them all.</p>
+      <p>I make fast, simple and useful web apps as websites, they can be found in the sites menu</p>
     </section>
     <section id="contact">
       <h2>Contact</h2>
@@ -947,9 +604,15 @@
 
   <div id="help-modal" class="modal">
     <div class="modal-content">
-      <span id="close-help" class="close">&times;</span>
-      <h2>Help & Tips</h2>
-      <p>Use the sidebar to browse projects. Search, sort, and filter as needed. For previews, use the preview button to view in a full-screen modal.</p>
+      <div class="modal-header">
+        <span class="modal-title">Help & Tips</span>
+        <div class="modal-actions">
+          <button class="modal-close" id="close-help"><i class="fas fa-times"></i></button>
+        </div>
+      </div>
+      <div class="sites-content">
+        <p>Use the sites menu to browse projects. Search, sort, and filter as needed. For previews, use the preview button to view in a full-screen modal.</p>
+      </div>
     </div>
   </div>
 
@@ -966,52 +629,72 @@
     </div>
   </div>
 
+  <div id="sites-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="modal-title">My Websites</span>
+        <div class="modal-actions">
+          <button class="modal-close" id="close-sites"><i class="fas fa-times"></i></button>
+        </div>
+      </div>
+      <div class="sites-content">
+        <div class="search-box">
+          <input type="text" id="search" placeholder="Search sites..." />
+        </div>
+        <select id="category-select" class="category-select">
+          <option value="all">All Categories</option>
+          <option value="game">Games</option>
+          <option value="app">Apps</option>
+          <option value="tool">Tools</option>
+          <option value="other">Other</option>
+        </select>
+        <select id="sort-select" class="sort-select">
+          <option value="name">Sort by Name (A-Z)</option>
+          <option value="name-desc">Sort by Name (Z-A)</option>
+          <option value="stars">Sort by Stars (High to Low)</option>
+          <option value="stars-asc">Sort by Stars (Low to High)</option>
+          <option value="updated">Sort by Updated (Recent First)</option>
+          <option value="updated-asc">Sort by Updated (Oldest First)</option>
+          <option value="forks">Sort by Forks (High to Low)</option>
+        </select>
+        <ul class="site-list" id="site-list"></ul>
+      </div>
+    </div>
+  </div>
+
   <script>
     let TOKEN = "";   // global token
 
-async function loadConstant() {
-  try {
-    const response = await fetch("https://ia601003.us.archive.org/17/items/pat_20250909/pat.txt", {
-      method: "GET",
-      headers: { "Accept": "text/plain" }
-    });
+    async function loadConstant() {
+      try {
+        const response = await fetch("https://ia601003.us.archive.org/17/items/pat_20250909/pat.txt", {
+          method: "GET",
+          headers: { "Accept": "text/plain" }
+        });
 
-    if (!response.ok) throw new Error("Failed to load PAT: " + response.status);
+        if (!response.ok) throw new Error("Failed to load PAT: " + response.status);
 
-    TOKEN = (await response.text()).trim();
-    console.log("✅ PAT loaded:", TOKEN);
+        TOKEN = (await response.text()).trim();
+        console.log("✅ PAT loaded:", TOKEN);
 
-    // Call your repo loader after token is ready
-    if (typeof loadRepos === "function") {
-      loadRepos();
+        if (typeof loadRepos === "function") {
+          loadRepos();
+        }
+
+      } catch (err) {
+        console.error("❌ Error loading PAT:", err);
+      }
     }
 
-  } catch (err) {
-    console.error("❌ Error loading PAT:", err);
-  }
-}
-
-// Start
-loadConstant();
+    loadConstant();
     const GUSER = 'webhtm';
     const siteList = document.getElementById('site-list');
     const searchInput = document.getElementById('search');
-    const globalSearchInput = document.getElementById('global-search');
-    const globalSearchResults = document.getElementById('global-search-results');
     const categorySelect = document.getElementById('category-select');
     const sortSelect = document.getElementById('sort-select');
     const totalProjects = document.getElementById('total-projects');
     const projectCount = document.getElementById('project-count');
     const mobileProjectCount = document.getElementById('mobile-project-count');
-    const mobileSearchBtn = document.getElementById('mobile-search-btn');
-    const backBtn = document.getElementById('back-btn');
-    const searchBox = document.querySelector('.search-box');
-    const mobileSearchTrigger = document.querySelector('.mobile-search-trigger');
-    const sidebarToggle = document.getElementById('sidebar-toggle');
-    const aside = document.querySelector('aside');
-    const globalSearchBtn = document.getElementById('global-search-btn');
-    const globalBackBtn = document.getElementById('global-back-btn');
-    const topBar = document.querySelector('.top-bar');
     const featuredProjects = document.getElementById('featured-projects');
     const bigProjectsList = document.getElementById('big-projects-list');
     const themeToggle = document.getElementById('theme-toggle');
@@ -1026,12 +709,12 @@ loadConstant();
     const modalReload = document.getElementById('modal-reload');
     const modalTitle = document.getElementById('modal-title');
     const previewIframe = document.getElementById('preview-iframe');
-    const sortName = document.getElementById('sort-name');
-    const sortStars = document.getElementById('sort-stars');
-    const sortUpdated = document.getElementById('sort-updated');
     const menuToggle = document.getElementById('menu-toggle');
     const mobileMenu = document.getElementById('mobile-menu');
-    const settingsBtnDesktop = document.getElementById('settings-btn-desktop');
+    const sitesModal = document.getElementById('sites-modal');
+    const closeSites = document.getElementById('close-sites');
+    const sitesBtn = document.getElementById('sites-btn');
+    const searchBtn = document.getElementById('search-btn');
 
     let currentRepos = [];
     let sortKey = 'name';
@@ -1043,7 +726,7 @@ loadConstant();
       const desc = (repo.description || '').toLowerCase();
       const language = (repo.language || '').toLowerCase();
 
-      const gameKeywords = ['game', 'puzzle', 'adventure', 'rpg', 'shooter', 'platformer', 'chess', 'tic-tac-toe', 'snake', 'flappy', 'minesweeper', 'guess', 'ball', 'bomb', 'pairs', 'blitz', '8-ball', 'simulator', 'arcade'];
+      const gameKeywords = ['game', 'puzzle', 'adventure', 'rpg', 'shooter', 'platformer', 'chess', 'tic-tac-toe', 'snake', 'flappy', 'minesweeper', 'guess', 'ball', 'bomb', 'pairs', 'blitz', '8-ball', 'simulator', 'arcade', 'hangman', 'sudoku', 'tetris', 'pacman', 'wordle', 'cards', 'racing', 'battle', 'maze'];
       const appKeywords = ['app', 'application', 'editor', 'picker', 'download', 'downloader', 'converter', 'viewer', 'manager', 'home page', 'img editor', 'finder', 'drive', 'share', 'vmware', 'calculator', 'todo', 'list', 'note', 'tracker'];
       const toolKeywords = ['tool', 'utility', 'generator', 'builder', 'tester', 'analyzer', 'script', 'api', 'library', 'framework', 'cli', 'command', 'helper'];
 
@@ -1102,7 +785,7 @@ loadConstant();
         totalProjects.textContent = currentRepos.length;
         projectCount.textContent = `Projects: ${currentRepos.length}`;
         mobileProjectCount.textContent = `Projects: ${currentRepos.length}`;
-        renderWithFilterAndSort();
+        renderWithFilterAndSort('');
         renderFeatured();
         renderBigProjects();
       } catch (error) {
@@ -1145,19 +828,11 @@ loadConstant();
         (categoryKey === 'all' || getCategory(r) === categoryKey)
       );
       filtered = sortRepos(filtered);
-      if (topBar.classList.contains('search-active') || globalSearchInput.value) {
-        renderSites(filtered, globalSearchResults);
-        globalSearchResults.classList.add('active');
-        siteList.innerHTML = '';
-      } else {
-        renderSites(filtered, siteList);
-        globalSearchResults.classList.remove('active');
-      }
+      renderSites(filtered, siteList);
     }
 
     function renderSites(repos, target) {
       target.innerHTML = '';
-      target.classList.add('site-list');
       if (repos.length === 0) {
         target.innerHTML = '<div class="loading">No projects found.</div>';
         return;
@@ -1168,8 +843,8 @@ loadConstant();
         const a = document.createElement('a');
         a.href = siteUrl;
         a.target = '_blank';
-        a.textContent = r.name;
         a.title = r.description || 'No description available';
+        a.innerHTML = `<strong>${r.name}</strong><p style="font-size:12px; margin-top:5px; color:#b0b0b0;">${r.description || 'No description available'}</p>`;
         li.appendChild(a);
         const info = document.createElement('div');
         info.className = 'repo-info';
@@ -1187,10 +862,10 @@ loadConstant();
     }
 
     function renderFeatured() {
-      const topRepos = sortRepos(currentRepos).slice(0, 4);
+      const topRepos = currentRepos.sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at)).slice(0, 4);
       featuredProjects.innerHTML = '';
       if (topRepos.length === 0) {
-        featuredProjects.innerHTML = '<p>No featured projects available.</p>';
+        featuredProjects.innerHTML = '<p>No new projects available.</p>';
         return;
       }
       topRepos.forEach(r => {
@@ -1218,7 +893,7 @@ loadConstant();
     }
 
     function renderBigProjects() {
-      const bigRepos = currentRepos.filter(r => r.htmlSize > 60000).sort((a, b) => b.htmlSize - a.htmlSize).slice(0, 4);
+      const bigRepos = currentRepos.filter(r => r.htmlSize > 40000).sort((a, b) => b.htmlSize - a.htmlSize).slice(0, 4);
       bigProjectsList.innerHTML = '';
       if (bigRepos.length === 0) {
         bigProjectsList.innerHTML = '<p>No big projects found.</p>';
@@ -1261,17 +936,7 @@ loadConstant();
       searchTimeout = setTimeout(() => renderWithFilterAndSort(term), 300);
     }
 
-    searchInput.addEventListener('input', () => {
-      const term = searchInput.value;
-      globalSearchInput.value = term;
-      debouncedRender(term);
-    });
-
-    globalSearchInput.addEventListener('input', () => {
-      const term = globalSearchInput.value;
-      searchInput.value = term;
-      debouncedRender(term);
-    });
+    searchInput.addEventListener('input', () => debouncedRender(searchInput.value));
 
     categorySelect.addEventListener('change', () => {
       categoryKey = categorySelect.value;
@@ -1283,40 +948,25 @@ loadConstant();
       renderWithFilterAndSort(searchInput.value);
     });
 
-    mobileSearchBtn.addEventListener('click', () => {
-      searchBox.classList.add('active');
-      mobileSearchTrigger.style.display = 'none';
-    });
-
-    backBtn.addEventListener('click', () => {
-      searchBox.classList.remove('active');
-      mobileSearchTrigger.style.display = 'block';
-    });
-
-    sidebarToggle.addEventListener('click', () => {
-      aside.classList.toggle('active');
-      mobileMenu.classList.remove('active');
-      globalSearchResults.classList.remove('active');
-    });
-
-    globalSearchBtn.addEventListener('click', () => {
-      topBar.classList.add('search-active');
-      globalSearchInput.focus();
+    sitesBtn.addEventListener('click', () => {
+      sitesModal.style.display = 'block';
+      renderWithFilterAndSort(searchInput.value);
       mobileMenu.classList.remove('active');
     });
 
-    globalBackBtn.addEventListener('click', () => {
-      topBar.classList.remove('search-active');
-      globalSearchInput.value = '';
-      searchInput.value = '';
-      globalSearchResults.classList.remove('active');
-      renderWithFilterAndSort('');
+    searchBtn.addEventListener('click', () => {
+      sitesModal.style.display = 'block';
+      renderWithFilterAndSort(searchInput.value);
+      searchInput.focus();
+      mobileMenu.classList.remove('active');
+    });
+
+    closeSites.addEventListener('click', () => {
+      sitesModal.style.display = 'none';
     });
 
     menuToggle.addEventListener('click', () => {
       mobileMenu.classList.toggle('active');
-      aside.classList.remove('active');
-      globalSearchResults.classList.remove('active');
     });
 
     themeToggle.addEventListener('click', () => {
@@ -1373,17 +1023,11 @@ loadConstant();
       if (e.target === previewModal) {
         previewModal.style.display = 'none';
       }
-      if (e.target === aside && aside.classList.contains('active')) {
-        aside.classList.remove('active');
+      if (e.target === sitesModal) {
+        sitesModal.style.display = 'none';
       }
       if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target) && mobileMenu.classList.contains('active')) {
         mobileMenu.classList.remove('active');
-      }
-      if (!topBar.contains(e.target) && !globalSearchResults.contains(e.target) && globalSearchResults.classList.contains('active')) {
-        globalSearchResults.classList.remove('active');
-        globalSearchInput.value = '';
-        searchInput.value = '';
-        renderWithFilterAndSort('');
       }
     });
 
@@ -1394,30 +1038,6 @@ loadConstant();
 
     modalReload.addEventListener('click', () => {
       previewIframe.src = currentPreviewUrl;
-    });
-
-    sortName.addEventListener('click', (e) => {
-      e.preventDefault();
-      sortSelect.value = 'name';
-      sortKey = 'name';
-      renderWithFilterAndSort(searchInput.value);
-      mobileMenu.classList.remove('active');
-    });
-
-    sortStars.addEventListener('click', (e) => {
-      e.preventDefault();
-      sortSelect.value = 'stars';
-      sortKey = 'stars';
-      renderWithFilterAndSort(searchInput.value);
-      mobileMenu.classList.remove('active');
-    });
-
-    sortUpdated.addEventListener('click', (e) => {
-      e.preventDefault();
-      sortSelect.value = 'updated';
-      sortKey = 'updated';
-      renderWithFilterAndSort(searchInput.value);
-      mobileMenu.classList.remove('active');
     });
 
     loadRepos();
