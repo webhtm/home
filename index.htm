@@ -550,17 +550,29 @@
       }, 500);
     }
 
-    // --- Data Fetching ---
+    // --- Data Fetching & Caching Logic ---
     async function fetchAndRender() {
       const cached = localStorage.getItem(CONFIG.cacheKey);
+      
       if (cached) {
         const data = JSON.parse(cached);
-        if (Date.now() - data.timestamp < CONFIG.cacheTime) {
+        // Using cached data for instant load if it exists (ignoring strict expiry for UI speed)
+        // We assume if cache exists, it's "good enough" to show immediately.
+        if (Date.now() - data.timestamp < CONFIG.cacheTime * 24) { // Allow older cache to show while updating
           processData(data.repos);
+          
+          // Trigger SILENT update check in background
+          silentUpdateCheck();
           return;
         }
       }
 
+      // If no cache or extremely old, do a blocking fetch
+      await fullFetch();
+    }
+
+    // Standard blocking fetch (first load)
+    async function fullFetch() {
       try {
         const tokenRes = await fetch(CONFIG.tokenUrl);
         if (!tokenRes.ok) throw new Error("Token fetch failed");
@@ -570,23 +582,80 @@
         const res = await fetch(`https://api.github.com/users/${CONFIG.user}/repos?per_page=100`, { headers });
         let repos = await res.json();
 
-        // Fetch Sizes for 'Big Projects'
-        repos = await Promise.all(repos.filter(r => !r.archived && r.name !== `${CONFIG.user}.github.io`).map(async r => {
-          try {
-            const sizeRes = await fetch(`https://api.github.com/repos/${CONFIG.user}/${r.name}/contents/index.html`, { headers });
-            if (sizeRes.ok) {
-              const json = await sizeRes.json();
-              r.htmlSize = json.size || 0;
-            } else r.htmlSize = 0;
-          } catch { r.htmlSize = 0; }
-          return r;
-        }));
+        // Fetch Sizes (The heavy operation)
+        repos = await fetchSizes(repos, headers);
 
+        // Save to cache
         localStorage.setItem(CONFIG.cacheKey, JSON.stringify({ timestamp: Date.now(), repos }));
         processData(repos);
       } catch (err) {
         console.error(err);
         document.getElementById('site-list-container').innerHTML = `<div style="padding:20px; text-align:center; color:red;">Error: ${err.message}</div>`;
+      }
+    }
+
+    // Helper: Fetch File Sizes
+    async function fetchSizes(repos, headers) {
+      return Promise.all(repos.filter(r => !r.archived && r.name !== `${CONFIG.user}.github.io`).map(async r => {
+        try {
+          // Optimization: Only fetch size if we suspect it's a web project (usually has index.html)
+          const sizeRes = await fetch(`https://api.github.com/repos/${CONFIG.user}/${r.name}/contents/index.html`, { headers });
+          if (sizeRes.ok) {
+            const json = await sizeRes.json();
+            r.htmlSize = json.size || 0;
+          } else r.htmlSize = 0;
+        } catch { r.htmlSize = 0; }
+        return r;
+      }));
+    }
+
+    // --- Silent Background Update ---
+    async function silentUpdateCheck() {
+      console.log("Starting silent update check...");
+      try {
+        // 1. Fetch Token
+        const tokenRes = await fetch(CONFIG.tokenUrl);
+        if (!tokenRes.ok) return;
+        const token = (await tokenRes.text()).trim();
+        const headers = { 'Authorization': `token ${token}` };
+
+        // 2. Fetch fresh list of repos
+        const res = await fetch(`https://api.github.com/users/${CONFIG.user}/repos?per_page=100`, { headers });
+        if (!res.ok) return;
+        let newRepos = await res.json();
+
+        // 3. Compare with Cache
+        const cachedStr = localStorage.getItem(CONFIG.cacheKey);
+        if (cachedStr) {
+            const cachedData = JSON.parse(cachedStr);
+            const oldRepos = cachedData.repos;
+
+            // Sort both by pushed_at to compare latest activity
+            const sortFn = (a,b) => new Date(b.pushed_at) - new Date(a.pushed_at);
+            newRepos.sort(sortFn);
+            const oldSorted = [...oldRepos].sort(sortFn);
+
+            // Comparison Heuristic:
+            // If count is same AND the most recent repo has same update time -> No changes.
+            if (newRepos.length === oldRepos.length && 
+                newRepos.length > 0 && 
+                newRepos[0].pushed_at === oldSorted[0].pushed_at) {
+                console.log("Silent update: No changes detected. Cache is up to date.");
+                return;
+            }
+        }
+
+        console.log("Silent update: Changes detected. Updating cache...");
+        
+        // 4. Fetch sizes for the new data (Expensive part)
+        newRepos = await fetchSizes(newRepos, headers);
+
+        // 5. Update Cache silently
+        localStorage.setItem(CONFIG.cacheKey, JSON.stringify({ timestamp: Date.now(), repos: newRepos }));
+        console.log("Silent update: Cache updated for next visit.");
+
+      } catch (err) {
+        console.warn("Silent update failed:", err);
       }
     }
 
