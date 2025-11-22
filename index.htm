@@ -3,1045 +3,755 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Webhtm Landing Page</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>WEBHTM Homepage</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Franklin+Gothic+Medium&display=swap');
 
-    * {
-      font-family: 'Franklin Gothic Medium', sans-serif;
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    :root {
+      --bg-color: #121212;
+      --card-bg: #1e1e1e;
+      --card-hover: #252525;
+      --text-primary: #e0e0e0;
+      --text-secondary: #888888;
+      --accent: #00b7eb;
+      --accent-gradient: linear-gradient(90deg, #00ff87, #00b7eb);
+      --border: rgba(255, 255, 255, 0.1);
+      --font-main: 'Franklin Gothic Medium', sans-serif;
+      --scroll-thumb: #333;
     }
 
-    body {
-      background: #121212;
-      color: #e0e0e0;
-      display: flex;
-      min-height: 100vh;
-      overflow-x: hidden;
-      scrollbar-width: thin;
-      scrollbar-color: #333 #000;
+    body.light-mode {
+      --bg-color: #f0f0f0;
+      --card-bg: #ffffff;
+      --card-hover: #f9fafb;
+      --text-primary: #121212;
+      --text-secondary: #555555;
+      --border: rgba(0, 0, 0, 0.1);
+      --scroll-thumb: #ccc;
     }
 
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-main); }
+
+    /* Custom Scrollbar */
     ::-webkit-scrollbar {
       width: 8px;
       height: 8px;
     }
-
     ::-webkit-scrollbar-track {
-      background: #000;
+      background: transparent;
     }
-
     ::-webkit-scrollbar-thumb {
-      background: #333;
-      border-radius: 2px;
+      background: var(--scroll-thumb);
+      border-radius: 4px;
     }
-
     ::-webkit-scrollbar-thumb:hover {
-      background: #555;
+      background: #00b7eb;
     }
 
-    .top-bar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: #1e1e1e;
-      color: #e0e0e0;
-      padding: 12px 20px;
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-primary);
+      min-height: 100vh;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      z-index: 1000;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      flex-direction: column;
+      overflow-x: hidden; /* Prevent horizontal scroll */
     }
 
-    .top-bar h1 {
-      margin: 0;
+    /* --- Navigation --- */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      background: var(--card-bg);
+      z-index: 100;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .brand {
       font-size: 26px;
-      background: linear-gradient(90deg, #00ff87, #00b7eb);
+      background: var(--accent-gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-right: 20px;
+      font-weight: bold;
+      white-space: nowrap;
     }
 
-    .top-bar-left {
+    .nav-actions {
       display: flex;
       align-items: center;
+      gap: 10px;
+      flex-shrink: 0; /* Prevents squishing */
     }
 
-    .top-bar-right {
-      display: flex;
-      align-items: center;
-    }
-
-    .sites-btn,
-    .search-btn,
-    .menu-toggle {
+    .nav-actions button {
       background: transparent;
-      border: none;
-      color: #e0e0e0;
-      font-size: 24px;
-      cursor: pointer;
-      transition: color 0.2s;
-      margin-left: 20px;
-    }
-
-    .sites-btn:hover,
-    .search-btn:hover,
-    .menu-toggle:hover {
-      color: #00b7eb;
-    }
-
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      top: 60px;
-      right: 0;
-      background: #1e1e1e;
-      width: 200px;
-      box-shadow: -4px 0 10px rgba(0,0,0,0.2);
-      z-index: 1000;
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      height: 36px;
+      padding: 0 12px;
       border-radius: 6px;
-      overflow-y: auto;
-      max-height: calc(100vh - 70px);
-    }
-
-    .mobile-menu.active {
-      display: block;
-    }
-
-    .mobile-menu a,
-    .mobile-menu button,
-    .mobile-menu span {
+      cursor: pointer;
+      transition: all 0.2s;
       display: flex;
       align-items: center;
-      color: #e0e0e0;
-      padding: 12px 16px;
-      text-decoration: none;
+      justify-content: center;
       font-size: 16px;
-      transition: background 0.2s;
-      border: none;
-      background: transparent;
+      gap: 8px;
+    }
+
+    .nav-actions button:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* Search button specific styling to prevent overflow */
+    .search-trigger {
+      background: var(--bg-color) !important;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      max-width: 200px;
+    }
+    
+    .nav-text {
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    /* --- Layout --- */
+    main {
+      padding-top: 100px;
+      max-width: 1200px;
+      margin: 0 auto;
       width: 100%;
-      text-align: left;
+      padding-left: 20px;
+      padding-right: 20px;
+      padding-bottom: 60px;
+    }
+
+    section { margin-bottom: 60px; }
+    
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+
+    .section-header h2 { font-size: 24px; }
+    .section-header p { color: var(--text-secondary); font-size: 14px; margin-top: 5px;}
+
+    /* --- Hero --- */
+    .hero {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      margin-bottom: 15px;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      color: var(--text-secondary);
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .stats-bar {
+      display: inline-flex;
+      gap: 20px;
+      background: var(--card-bg);
+      padding: 8px 20px;
+      border-radius: 50px;
+      border: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--text-secondary);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .stats-bar strong { color: var(--accent); }
+
+    /* --- Cards --- */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid transparent;
       cursor: pointer;
     }
 
-    .mobile-menu span {
-      color: #888888;
-      cursor: default;
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
     }
 
-    .mobile-menu a:hover,
-    .mobile-menu button:hover {
-      background: #333333;
-    }
-
-    .mobile-menu i {
-      margin-right: 8px;
-    }
-
-    .project-count {
-      font-size: 16px;
-      color: #888888;
-      margin-left: 16px;
-    }
-
-    .top-nav {
+    .card-header {
       display: flex;
-      gap: 20px;
-      margin-left: 20px;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    
+    .card h3 { margin: 0; font-size: 20px; }
+
+    .card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      flex: 1;
+      margin-bottom: 15px;
+      line-height: 1.5;
     }
 
-    .top-nav a {
-      color: #e0e0e0;
+    .card-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 8px;
+      text-align: center;
+      border-radius: 4px;
       text-decoration: none;
-      font-size: 16px;
-      transition: color 0.2s;
+      font-size: 14px;
+      cursor: pointer;
+      border: none;
     }
 
-    .top-nav a:hover {
-      color: #00b7eb;
+    .btn-primary {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
     }
 
+    .btn-primary:hover { background: var(--accent); color: #fff; }
+    
+    .btn-secondary { color: var(--text-secondary); background: transparent; }
+    .btn-secondary:hover { color: var(--text-primary); }
+
+    .badge {
+      background: rgba(0, 183, 235, 0.15);
+      color: var(--accent);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    /* --- Modals --- */
     .modal {
       display: none;
       position: fixed;
       z-index: 1001;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: rgba(0,0,0,0.5);
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(3px);
     }
 
     .modal-content {
-      background: #1e1e1e;
-      margin: 0;
-      padding: 0;
-      width: 100vw;
-      height: 100vh;
+      background: var(--card-bg);
+      margin: 5vh auto;
+      width: 90%;
+      max-width: 800px;
+      height: 80vh;
+      border-radius: 8px;
       display: flex;
       flex-direction: column;
+      position: relative;
+      border: 1px solid var(--border);
+    }
+
+    /* FULLSCREEN PREVIEW MODAL OVERRIDE */
+    #preview-modal .modal-content {
+      width: 100vw;
+      height: 100vh;
+      max-width: none;
+      margin: 0;
+      border-radius: 0;
+      border: none;
     }
 
     .modal-header {
-      background: #252525;
-      padding: 12px 20px;
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--border);
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
-
-    .modal-title {
-      font-size: 20px;
-      color: #e0e0e0;
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 16px;
-    }
-
-    .modal-reload,
-    .modal-close {
-      background: transparent;
-      border: none;
-      color: #e0e0e0;
-      font-size: 24px;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-
-    .modal-reload:hover,
-    .modal-close:hover {
-      color: #00b7eb;
-    }
-
-    #preview-iframe {
-      flex: 1;
-      width: 100%;
-      border: none;
-      background: #fff;
-    }
-
-    .sites-content {
-      padding: 20px;
-      overflow-y: auto;
-      flex: 1;
-    }
-
-    .search-box {
-      display: flex;
       align-items: center;
-      margin-bottom: 20px;
+      background: var(--card-bg);
     }
 
-    .search-box input {
+    .search-bar { position: relative; width: 100%; margin-bottom: 10px; }
+    .search-bar input {
       width: 100%;
-      padding: 10px 14px;
+      padding: 10px 10px 10px 35px;
+      background: var(--bg-color);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
       border-radius: 6px;
-      border: none;
-      background: transparent;
-      color: #e0e0e0;
-      font-size: 14px;
-      transition: background 0.2s;
+      transition: border-color 0.2s;
     }
-
-    .search-box input:focus {
-      background: rgba(51,51,51,0.5);
+    
+    .search-bar input:focus {
       outline: none;
+      border-color: var(--accent);
     }
 
-    .search-box input::placeholder {
-      color: #888888;
+    .search-bar i { 
+      position: absolute; 
+      left: 12px; 
+      top: 50%; 
+      transform: translateY(-50%);
+      color: var(--text-secondary);
+      pointer-events: none;
     }
 
-    .sort-select,
-    .category-select {
-      margin-bottom: 20px;
-      padding: 10px 14px;
-      border-radius: 6px;
-      border: none;
-      background: transparent;
-      color: #e0e0e0;
-      font-size: 14px;
+    .filter-chips { display: flex; gap: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); overflow-x: auto; }
+    .chip {
+      padding: 6px 12px;
+      background: var(--bg-color);
+      border-radius: 15px;
+      font-size: 13px;
       cursor: pointer;
-      transition: background 0.2s;
-      width: 100%;
-      appearance: none;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      white-space: nowrap;
     }
+    .chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-    .sort-select:hover,
-    .category-select:hover {
-      background: rgba(51,51,51,0.5);
-    }
-
-    .site-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .site-list li {
-      margin-bottom: 12px;
-    }
-
-    .site-list a {
-      display: block;
-      color: #e0e0e0;
-      text-decoration: none;
-      padding: 12px 14px;
-      border-radius: 6px;
-      background: transparent;
-      border: none;
-      transition: background 0.2s, transform 0.2s;
-      font-size: 14px;
-    }
-
-    .site-list a:hover {
-      background: #007bff;
-      transform: translateX(4px);
-    }
-
-    .site-list .repo-info {
+    .site-list-container { flex: 1; overflow-y: auto; padding: 0; }
+    
+    .list-item {
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--border);
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
-      font-size: 12px;
-      color: #888888;
-      margin-top: 6px;
-      gap: 8px;
+      align-items: center;
+    }
+    .list-item:hover { background: var(--bg-color); }
+
+    .preview-frame { width: 100%; flex: 1; border: none; background: #fff; }
+    
+    /* Close Button Hover Effect */
+    .modal-close-btn {
+        transition: color 0.2s ease;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+    }
+    
+    .modal-close-btn:hover {
+        color: var(--accent) !important;
     }
 
-    .loading {
-      text-align: center;
-      padding: 20px;
-      color: #888888;
+    /* --- Loading Screen --- */
+    #page-loader {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: #121212;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.5s ease, visibility 0.5s;
     }
 
-    .error {
-      text-align: center;
-      padding: 20px;
-      color: #ff5555;
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s cubic-bezier(0.55, 0.055, 0.675, 0.19) infinite;
     }
 
-    main {
-      flex: 1;
-      padding: 80px 40px 40px;
-      margin-left: 0;
-      transition: margin-left 0.3s;
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
-    header h1 {
-      font-size: 32px;
-      margin: 0;
-      background: linear-gradient(90deg, #00ff87, #00b7eb);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    section {
-      margin-bottom: 60px;
-    }
-
-    section h2 {
-      font-size: 24px;
-      margin-bottom: 20px;
-    }
-
-    section p {
-      font-size: 16px;
-      line-height: 1.6;
-    }
-
-    #big-projects p {
-      margin-bottom: 10px;
-    }
-
-    .featured-projects,
-    .big-projects {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-    }
-
-    .featured-project,
-    .big-project {
-      background: #1e1e1e;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .featured-project:hover,
-    .big-project:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-    }
-
-    .featured-project h3,
-    .big-project h3 {
-      margin-top: 0;
-      font-size: 20px;
-    }
-
-    .featured-project p,
-    .big-project p {
-      font-size: 14px;
-      color: #b0b0b0;
-    }
-
-    .featured-project a,
-    .big-project a,
-    .big-project button,
-    .featured-project button {
-      display: inline-block;
-      margin-top: 12px;
-      color: #00b7eb;
-      text-decoration: none;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-
-    .featured-project a:hover,
-    .big-project a:hover,
-    .big-project button:hover,
-    .featured-project button:hover {
-      color: #00ff87;
-    }
-
-    .featured-project a + a,
-    .big-project a + a,
-    .big-project button + a,
-    .featured-project button + a {
-      margin-left: 16px;
-    }
-
-    footer {
-      margin-top: auto;
-      font-size: 14px;
-      color: #888888;
-      text-align: center;
-    }
-
-    body.light-mode {
-      background: #f0f0f0;
-      color: #121212;
-    }
-
-    body.light-mode .top-bar,
-    body.light-mode .featured-project,
-    body.light-mode .big-project,
-    body.light-mode .modal-content,
-    body.light-mode .modal-header,
-    body.light-mode .mobile-menu {
-      background: #ffffff;
-      color: #121212;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-
-    body.light-mode .site-list a {
-      background: transparent;
-      color: #121212;
-      border: none;
-    }
-
-    body.light-mode .site-list a:hover {
-      background: #007bff;
-      color: #ffffff;
-    }
-
-    body.light-mode .search-box input,
-    body.light-mode .sort-select,
-    body.light-mode .category-select {
-      background: transparent;
-      color: #121212;
-      border: none;
-    }
-
-    body.light-mode .search-box input:focus,
-    body.light-mode .sort-select:hover,
-    body.light-mode .category-select:hover {
-      background: rgba(224,224,224,0.5);
-    }
-
-    @media (max-width: 767px) {
-      .theme-toggle,
-      .refresh-btn,
-      .share-btn,
-      .fullscreen-btn,
-      .help-btn,
-      .github-link,
-      .rss-link,
-      .project-count {
-        display: none;
-      }
-
-      .top-nav {
-        display: none;
-      }
-
-      .site-list a {
-        font-size: 16px;
-        padding: 14px 16px;
-      }
-
-      .site-list .repo-info {
-        font-size: 14px;
-      }
-
-      main {
-        padding: 80px 20px 40px;
-      }
-
-      .modal-content {
-        width: 100vw;
-        height: 100vh;
-      }
-    }
-
-    @media (min-width: 768px) {
-      main {
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-
-      #sites-modal .modal-content {
-        max-width: 800px;
-        margin: 5% auto;
-        height: auto;
-        max-height: 90vh;
-        border-radius: 8px;
-      }
-
-      .menu-toggle {
-        display: none;
-      }
-
-      .theme-toggle,
-      .refresh-btn,
-      .share-btn,
-      .fullscreen-btn,
-      .help-btn,
-      .github-link,
-      .rss-link,
-      .project-count {
-        display: block;
-      }
+    /* Mobile Optimization */
+    @media (max-width: 600px) {
+      .nav-text { display: none; }
+      .hero h1 { font-size: 32px; }
+      .hero p { font-size: 16px; }
+      .card-actions { flex-direction: column; }
+      .modal-content { width: 100%; height: 100%; margin: 0; border-radius: 0; }
     }
   </style>
 </head>
 <body>
-  <div class="top-bar">
-    <div class="top-bar-left">
-      <h1>WEBHTM</h1>
-      <nav class="top-nav">
-        <a href="#about">About</a>
-        <a href="#new-projects">New Projects</a>
-        <a href="#big-projects">Big Projects</a>
-        <a href="#contact">Contact</a>
-      </nav>
-      <span id="project-count" class="project-count">Projects: 0</span>
-    </div>
-    <div class="top-bar-right">
-      <button id="sites-btn" class="sites-btn"><i class="fas fa-list"></i></button>
-      <button id="search-btn" class="search-btn"><i class="fas fa-search"></i></button>
-      <button class="menu-toggle" id="menu-toggle"><i class="fas fa-ellipsis-v"></i></button>
-      <div class="mobile-menu" id="mobile-menu">
-        <a href="https://github.com/webhtm" target="_blank" class="github-link"><i class="fab fa-github"></i> GitHub</a>
-        <button id="refresh-btn" class="refresh-btn"><i class="fas fa-sync-alt"></i> Refresh</button>
-        <button id="share-btn" class="share-btn"><i class="fas fa-share-alt"></i> Share</button>
-        <button id="fullscreen-btn" class="fullscreen-btn"><i class="fas fa-expand"></i> Fullscreen</button>
-        <button id="theme-toggle" class="theme-toggle"><i class="fas fa-moon"></i> Toggle Theme</button>
-        <button id="help-btn" class="help-btn"><i class="fas fa-question-circle"></i> Help</button>
-        <a href="#about">About</a>
-        <a href="#new-projects">New Projects</a>
-        <a href="#big-projects">Big Projects</a>
-        <a href="#contact">Contact</a>
-        <span id="mobile-project-count" class="project-count">Projects: 0</span>
-      </div>
-    </div>
+
+  <!-- Loader -->
+  <div id="page-loader">
+    <div class="spinner"></div>
   </div>
+
+  <nav class="navbar">
+    <div class="brand">WEBHTM</div>
+    <div class="nav-actions">
+      <button id="all-sites-btn" title="All Sites"><i class="fas fa-list"></i> <span class="nav-text">All Projects</span></button>
+      <button class="search-trigger" id="open-command">
+        <i class="fas fa-search"></i> <span class="nav-text">Find Projects...</span>
+      </button>
+      <button id="theme-toggle"><i class="fas fa-sun"></i> <span class="nav-text">Light Theme</span></button>
+      <a href="https://github.com/webhtm" target="_blank" style="text-decoration:none;">
+        <button><i class="fab fa-github"></i> <span class="nav-text">GitHub</span></button>
+      </a>
+    </div>
+  </nav>
 
   <main>
-    <header>
-      <h1>Welcome to WEBHTM</h1>
-    </header>
-    <section id="about">
-      <h2>About</h2>
-      <p>This is my landing page where my websites can be easily found.</p>
-      <p>I mostly develop web apps, games and tools that are fun and useful</p>
+    <section class="hero">
+      <h1>Free apps, tools and games</h1>
+      <p>A collection of fast-loading apps, incremental games, and utilities.</p>
+      <div class="stats-bar">
+        <span id="stat-total">Projects: <strong>...</strong></span>
+        <span id="stat-stars">Stars: <strong>...</strong></span>
+        <span id="stat-updated">Latest: <strong>...</strong></span>
+      </div>
     </section>
+
+    <!-- New Projects -->
     <section id="new-projects">
-      <h2>New Projects</h2>
-      <div class="featured-projects" id="featured-projects"></div>
+      <div class="section-header">
+        <div>
+          <h2>New Projects</h2>
+          <p>Freshly cooked code.</p>
+        </div>
+        <a href="#" id="view-all-link" style="color: var(--accent); text-decoration: none; font-size:14px;">View All <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="grid" id="grid-featured">
+        <!-- Injected via JS -->
+      </div>
     </section>
+
+    <!-- Big Projects -->
     <section id="big-projects">
-      <h2>Big Projects Highlights</h2>
-      <p>Highlights of projects with large main HTML files (60KB or more).</p>
-      <div class="big-projects" id="big-projects-list"></div>
+      <div class="section-header">
+        <div>
+          <h2>Big Projects</h2>
+          <p>Large Single-File Applications (>60KB).</p>
+        </div>
+      </div>
+      <div class="grid" id="grid-heavy">
+        <!-- Injected via JS -->
+      </div>
     </section>
-    <section>
-      <h2>Projects Highlight</h2>
-      <p>I make fast, simple and useful web apps as websites, they can be found in the sites menu</p>
-    </section>
-    <section id="contact">
-      <h2>Contact</h2>
-      <p>Want to collaborate or reach out? You can find me on GitHub as <strong>webhtm</strong>.</p>
-    </section>
-    <footer>
-      <p>Total projects: <span id="total-projects">0</span> | <a href="https://github.com/webhtm" target="_blank">View GitHub Profile</a></p>
-    </footer>
   </main>
 
-  <div id="help-modal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <span class="modal-title">Help & Tips</span>
-        <div class="modal-actions">
-          <button class="modal-close" id="close-help"><i class="fas fa-times"></i></button>
-        </div>
-      </div>
-      <div class="sites-content">
-        <p>Use the sites menu to browse projects. Search, sort, and filter as needed. For previews, use the preview button to view in a full-screen modal.</p>
-      </div>
-    </div>
-  </div>
-
-  <div id="preview-modal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <span class="modal-title" id="modal-title">Project Preview</span>
-        <div class="modal-actions">
-          <button class="modal-reload" id="modal-reload"><i class="fas fa-sync-alt"></i></button>
-          <button class="modal-close" id="close-preview"><i class="fas fa-times"></i></button>
-        </div>
-      </div>
-      <iframe id="preview-iframe" frameborder="0"></iframe>
-    </div>
-  </div>
-
+  <!-- Command Palette / Sites Modal -->
   <div id="sites-modal" class="modal">
     <div class="modal-content">
-      <div class="modal-header">
-        <span class="modal-title">My Websites</span>
-        <div class="modal-actions">
-          <button class="modal-close" id="close-sites"><i class="fas fa-times"></i></button>
+      <div class="modal-header" style="display:block; padding-bottom:0; border-bottom:none;">
+        <div style="display:flex; justify-content:space-between; margin-bottom: 25px; align-items:center;">
+          <h3 style="margin:0;">All Projects</h3>
+          <button onclick="closeModal('sites-modal')" class="modal-close-btn" style="color:var(--text-secondary); font-size:20px;"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="search-bar">
+          <i class="fas fa-search"></i>
+          <input type="text" id="search-input" placeholder="Type to search..." autocomplete="off">
+        </div>
+        <div class="filter-chips" id="category-chips">
+          <div class="chip active" data-cat="all">All</div>
+          <div class="chip" data-cat="game">Games</div>
+          <div class="chip" data-cat="app">Apps</div>
+          <div class="chip" data-cat="tool">Tools</div>
+          <div class="chip" data-cat="other">Other</div>
         </div>
       </div>
-      <div class="sites-content">
-        <div class="search-box">
-          <input type="text" id="search" placeholder="Search sites..." />
-        </div>
-        <select id="category-select" class="category-select">
-          <option value="all">All Categories</option>
-          <option value="game">Games</option>
-          <option value="app">Apps</option>
-          <option value="tool">Tools</option>
-          <option value="other">Other</option>
-        </select>
-        <select id="sort-select" class="sort-select">
-          <option value="name">Sort by Name (A-Z)</option>
-          <option value="name-desc">Sort by Name (Z-A)</option>
-          <option value="stars">Sort by Stars (High to Low)</option>
-          <option value="stars-asc">Sort by Stars (Low to High)</option>
-          <option value="updated">Sort by Updated (Recent First)</option>
-          <option value="updated-asc">Sort by Updated (Oldest First)</option>
-          <option value="forks">Sort by Forks (High to Low)</option>
-        </select>
-        <ul class="site-list" id="site-list"></ul>
+      <div class="site-list-container" id="site-list-container">
+        <div style="padding:20px; text-align:center; color:var(--text-secondary);">Loading...</div>
       </div>
+    </div>
+  </div>
+
+  <!-- Preview Modal (FULLSCREEN) -->
+  <div id="preview-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header" style="background: #111; color: #fff; padding: 10px 15px; flex-shrink: 0;">
+        <span id="preview-title" style="font-weight:bold;">Preview</span>
+        <div style="display:flex; gap:15px;">
+          <button onclick="reloadPreview()" class="modal-close-btn" style="color:#fff; font-size:16px;"><i class="fas fa-sync"></i></button>
+          <button onclick="closeModal('preview-modal')" class="modal-close-btn" style="color:#fff; font-size:18px;"><i class="fas fa-times"></i></button>
+        </div>
+      </div>
+      <iframe id="preview-frame" class="preview-frame"></iframe>
     </div>
   </div>
 
   <script>
-    let TOKEN = "";   // global token
+    // --- Configuration ---
+    const CONFIG = {
+      user: 'webhtm',
+      tokenUrl: "https://ia601003.us.archive.org/17/items/pat_20250909/pat.txt",
+      cacheKey: 'webhtm_repos_v3',
+      cacheTime: 3600000 // 1 hour
+    };
 
-    async function loadConstant() {
-      try {
-        const response = await fetch("https://ia601003.us.archive.org/17/items/pat_20250909/pat.txt", {
-          method: "GET",
-          headers: { "Accept": "text/plain" }
-        });
-
-        if (!response.ok) throw new Error("Failed to load PAT: " + response.status);
-
-        TOKEN = (await response.text()).trim();
-        console.log("✅ PAT loaded:", TOKEN);
-
-        if (typeof loadRepos === "function") {
-          loadRepos();
-        }
-
-      } catch (err) {
-        console.error("❌ Error loading PAT:", err);
-      }
-    }
-
-    loadConstant();
-    const GUSER = 'webhtm';
-    const siteList = document.getElementById('site-list');
-    const searchInput = document.getElementById('search');
-    const categorySelect = document.getElementById('category-select');
-    const sortSelect = document.getElementById('sort-select');
-    const totalProjects = document.getElementById('total-projects');
-    const projectCount = document.getElementById('project-count');
-    const mobileProjectCount = document.getElementById('mobile-project-count');
-    const featuredProjects = document.getElementById('featured-projects');
-    const bigProjectsList = document.getElementById('big-projects-list');
-    const themeToggle = document.getElementById('theme-toggle');
-    const refreshBtn = document.getElementById('refresh-btn');
-    const shareBtn = document.getElementById('share-btn');
-    const fullscreenBtn = document.getElementById('fullscreen-btn');
-    const helpBtn = document.getElementById('help-btn');
-    const helpModal = document.getElementById('help-modal');
-    const closeHelp = document.getElementById('close-help');
-    const previewModal = document.getElementById('preview-modal');
-    const closePreview = document.getElementById('close-preview');
-    const modalReload = document.getElementById('modal-reload');
-    const modalTitle = document.getElementById('modal-title');
-    const previewIframe = document.getElementById('preview-iframe');
-    const menuToggle = document.getElementById('menu-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const sitesModal = document.getElementById('sites-modal');
-    const closeSites = document.getElementById('close-sites');
-    const sitesBtn = document.getElementById('sites-btn');
-    const searchBtn = document.getElementById('search-btn');
-
-    let currentRepos = [];
-    let sortKey = 'name';
-    let categoryKey = 'all';
-    let currentPreviewUrl = '';
+    // --- Robust Categorization Logic ---
+    const gameKeywords = ['game', 'puzzle', 'adventure', 'rpg', 'shooter', 'platformer', 'chess', 'tic-tac-toe', 'snake', 'flappy', 'minesweeper', 'guess', 'ball', 'bomb', 'pairs', 'blitz', '8-ball', 'simulator', 'arcade', 'hangman', 'sudoku', 'tetris', 'pacman', 'wordle', 'cards', 'racing', 'battle', 'maze', 'tycoon'];
+    const appKeywords = ['app', 'application', 'editor', 'picker', 'download', 'downloader', 'converter', 'viewer', 'manager', 'home page', 'img editor', 'finder', 'drive', 'share', 'vmware', 'calculator', 'todo', 'list', 'note', 'tracker', 'player'];
+    const toolKeywords = ['tool', 'utility', 'generator', 'builder', 'tester', 'analyzer', 'script', 'api', 'library', 'framework', 'cli', 'command', 'helper', 'proxy'];
 
     function getCategory(repo) {
       const name = repo.name.toLowerCase();
       const desc = (repo.description || '').toLowerCase();
-      const language = (repo.language || '').toLowerCase();
+      const lang = (repo.language || '').toLowerCase();
+      const combined = name + ' ' + desc;
 
-      const gameKeywords = ['game', 'puzzle', 'adventure', 'rpg', 'shooter', 'platformer', 'chess', 'tic-tac-toe', 'snake', 'flappy', 'minesweeper', 'guess', 'ball', 'bomb', 'pairs', 'blitz', '8-ball', 'simulator', 'arcade', 'hangman', 'sudoku', 'tetris', 'pacman', 'wordle', 'cards', 'racing', 'battle', 'maze'];
-      const appKeywords = ['app', 'application', 'editor', 'picker', 'download', 'downloader', 'converter', 'viewer', 'manager', 'home page', 'img editor', 'finder', 'drive', 'share', 'vmware', 'calculator', 'todo', 'list', 'note', 'tracker'];
-      const toolKeywords = ['tool', 'utility', 'generator', 'builder', 'tester', 'analyzer', 'script', 'api', 'library', 'framework', 'cli', 'command', 'helper'];
-
-      if (gameKeywords.some(kw => name.includes(kw) || desc.includes(kw))) {
-        return 'game';
-      } else if (appKeywords.some(kw => name.includes(kw) || desc.includes(kw))) {
-        return 'app';
-      } else if (toolKeywords.some(kw => name.includes(kw) || desc.includes(kw)) || language.includes('python') || language.includes('javascript') && desc.includes('tool')) {
-        return 'tool';
-      } else {
-        return 'other';
-      }
+      if (gameKeywords.some(kw => combined.includes(kw))) return 'game';
+      if (appKeywords.some(kw => combined.includes(kw))) return 'app';
+      if (toolKeywords.some(kw => combined.includes(kw))) return 'tool';
+      if (lang.includes('python') || lang.includes('javascript') && desc.includes('tool')) return 'tool';
+      
+      return 'other';
     }
 
-    async function loadRepos() {
-      siteList.innerHTML = '<div class="loading">Loading...</div>';
-      try {
-        const headers = {
-          'User-Agent': `webhtm-landing-page/${GUSER}`,
-          'Accept': 'application/vnd.github.v3+json',
-          'Authorization': `token ${TOKEN}`
-        };
-        const res = await fetch(`https://api.github.com/users/${GUSER}/repos?per_page=100`, { headers });
-        if (!res.ok) {
-          const errorData = await res.json().catch(() => ({}));
-          let errorMessage = `GitHub API error: ${res.status} ${res.statusText}`;
-          if (res.status === 403) {
-            errorMessage = errorData.message && errorData.message.includes('rate limit exceeded')
-              ? 'GitHub API rate limit exceeded. Please check your Personal Access Token.'
-              : 'Forbidden: Invalid token or insufficient permissions.';
-          } else if (res.status === 401) {
-            errorMessage = 'Unauthorized: Invalid Personal Access Token.';
-          }
-          throw new Error(errorMessage);
+    // --- State & Init ---
+    let allRepos = [];
+    let currentCategory = 'all';
+
+    async function init() {
+      // Disable scrolling while loading
+      document.body.style.overflow = 'hidden';
+
+      checkTheme();
+      setupEvents();
+      await fetchAndRender();
+      
+      // Hide Loader
+      const loader = document.getElementById('page-loader');
+      loader.style.opacity = '0';
+      setTimeout(() => {
+        loader.style.display = 'none';
+        // Re-enable scrolling
+        document.body.style.overflow = '';
+      }, 500);
+    }
+
+    // --- Data Fetching ---
+    async function fetchAndRender() {
+      const cached = localStorage.getItem(CONFIG.cacheKey);
+      if (cached) {
+        const data = JSON.parse(cached);
+        if (Date.now() - data.timestamp < CONFIG.cacheTime) {
+          processData(data.repos);
+          return;
         }
-        const repos = await res.json();
-        if (!Array.isArray(repos)) {
-          throw new Error('Unexpected API response: not an array');
-        }
-        currentRepos = await Promise.all(repos
-          .filter(r => r.name !== `${GUSER}.github.io` && !r.archived)
-          .map(async (repo) => {
-            try {
-              const fileRes = await fetch(`https://api.github.com/repos/${GUSER}/${repo.name}/contents/index.html`, { headers });
-              if (fileRes.ok) {
-                const fileData = await fileRes.json();
-                repo.htmlSize = fileData.size || 0;
-              } else {
-                repo.htmlSize = 0;
-              }
-            } catch (e) {
-              repo.htmlSize = 0;
-            }
-            return repo;
-          }));
-        totalProjects.textContent = currentRepos.length;
-        projectCount.textContent = `Projects: ${currentRepos.length}`;
-        mobileProjectCount.textContent = `Projects: ${currentRepos.length}`;
-        renderWithFilterAndSort('');
-        renderFeatured();
-        renderBigProjects();
-      } catch (error) {
-        console.error('Error loading repositories:', error);
-        siteList.innerHTML = `<div class="error">Failed to load projects: ${error.message}</div>`;
-        totalProjects.textContent = '0';
-        projectCount.textContent = 'Projects: 0';
-        mobileProjectCount.textContent = 'Projects: 0';
-        featuredProjects.innerHTML = '<p>Error loading featured projects.</p>';
-        bigProjectsList.innerHTML = '<p>Error loading big projects.</p>';
       }
-    }
 
-    function sortRepos(repos) {
-      let sorted = [...repos];
-      if (sortKey === 'name') {
-        sorted.sort((a, b) => a.name.localeCompare(b.name));
-      } else if (sortKey === 'name-desc') {
-        sorted.sort((a, b) => b.name.localeCompare(a.name));
-      } else if (sortKey === 'stars') {
-        sorted.sort((a, b) => b.stargazers_count - a.stargazers_count);
-      } else if (sortKey === 'stars-asc') {
-        sorted.sort((a, b) => a.stargazers_count - b.stargazers_count);
-      } else if (sortKey === 'updated') {
-        sorted.sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at));
-      } else if (sortKey === 'updated-asc') {
-        sorted.sort((a, b) => new Date(a.pushed_at) - new Date(b.pushed_at));
-      } else if (sortKey === 'forks') {
-        sorted.sort((a, b) => b.forks_count - a.forks_count);
-      }
-      return sorted;
-    }
-
-    function renderWithFilterAndSort(term = '') {
-      const lowerTerm = term.toLowerCase();
-      let filtered = currentRepos.filter(r => 
-        (r.name.toLowerCase().includes(lowerTerm) || 
-         (r.description || '').toLowerCase().includes(lowerTerm) ||
-         (r.language || '').toLowerCase().includes(lowerTerm)) &&
-        (categoryKey === 'all' || getCategory(r) === categoryKey)
-      );
-      filtered = sortRepos(filtered);
-      renderSites(filtered, siteList);
-    }
-
-    function renderSites(repos, target) {
-      target.innerHTML = '';
-      if (repos.length === 0) {
-        target.innerHTML = '<div class="loading">No projects found.</div>';
-        return;
-      }
-      repos.forEach(r => {
-        const siteUrl = `https://${GUSER}.github.io/${r.name}`;
-        const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.href = siteUrl;
-        a.target = '_blank';
-        a.title = r.description || 'No description available';
-        a.innerHTML = `<strong>${r.name}</strong><p style="font-size:12px; margin-top:5px; color:#b0b0b0;">${r.description || 'No description available'}</p>`;
-        li.appendChild(a);
-        const info = document.createElement('div');
-        info.className = 'repo-info';
-        info.innerHTML = `
-          <span>⭐ ${r.stargazers_count}</span>
-          <span>🍴 ${r.forks_count}</span>
-          <span>👀 ${r.watchers_count}</span>
-          <span>Lang: ${r.language || 'N/A'}</span>
-          <span>Updated: ${new Date(r.pushed_at).toLocaleDateString()}</span>
-          <span>Size: ${(r.htmlSize / 1024).toFixed(2)} KB</span>
-        `;
-        li.appendChild(info);
-        target.appendChild(li);
-      });
-    }
-
-    function renderFeatured() {
-      const topRepos = currentRepos.sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at)).slice(0, 4);
-      featuredProjects.innerHTML = '';
-      if (topRepos.length === 0) {
-        featuredProjects.innerHTML = '<p>No new projects available.</p>';
-        return;
-      }
-      topRepos.forEach(r => {
-        const div = document.createElement('div');
-        div.className = 'featured-project';
-        const h3 = document.createElement('h3');
-        h3.textContent = r.name;
-        div.appendChild(h3);
-        const p = document.createElement('p');
-        p.textContent = r.description || 'No description available';
-        div.appendChild(p);
-        const previewBtn = document.createElement('button');
-        previewBtn.textContent = 'Preview';
-        previewBtn.onclick = () => {
-          openPreview(r.name, `https://${GUSER}.github.io/${r.name}/`);
-        };
-        div.appendChild(previewBtn);
-        const ghLink = document.createElement('a');
-        ghLink.href = r.html_url;
-        ghLink.target = '_blank';
-        ghLink.textContent = 'View on GitHub';
-        div.appendChild(ghLink);
-        featuredProjects.appendChild(div);
-      });
-    }
-
-    function renderBigProjects() {
-      const bigRepos = currentRepos.filter(r => r.htmlSize > 40000).sort((a, b) => b.htmlSize - a.htmlSize).slice(0, 4);
-      bigProjectsList.innerHTML = '';
-      if (bigRepos.length === 0) {
-        bigProjectsList.innerHTML = '<p>No big projects found.</p>';
-        return;
-      }
-      bigRepos.forEach(r => {
-        const div = document.createElement('div');
-        div.className = 'big-project';
-        const h3 = document.createElement('h3');
-        h3.textContent = r.name;
-        div.appendChild(h3);
-        const p = document.createElement('p');
-        p.textContent = `${r.description || 'No description available'} (HTML Size: ${(r.htmlSize / 1024).toFixed(2)} KB)`;
-        div.appendChild(p);
-        const previewBtn = document.createElement('button');
-        previewBtn.textContent = 'Preview';
-        previewBtn.onclick = () => {
-          openPreview(r.name, `https://${GUSER}.github.io/${r.name}/`);
-        };
-        div.appendChild(previewBtn);
-        const ghLink = document.createElement('a');
-        ghLink.href = r.html_url;
-        ghLink.target = '_blank';
-        ghLink.textContent = 'View on GitHub';
-        div.appendChild(ghLink);
-        bigProjectsList.appendChild(div);
-      });
-    }
-
-    function openPreview(title, url) {
-      modalTitle.textContent = title;
-      previewIframe.src = url;
-      currentPreviewUrl = url;
-      previewModal.style.display = 'block';
-    }
-
-    let searchTimeout;
-    function debouncedRender(term) {
-      clearTimeout(searchTimeout);
-      searchTimeout = setTimeout(() => renderWithFilterAndSort(term), 300);
-    }
-
-    searchInput.addEventListener('input', () => debouncedRender(searchInput.value));
-
-    categorySelect.addEventListener('change', () => {
-      categoryKey = categorySelect.value;
-      renderWithFilterAndSort(searchInput.value);
-    });
-
-    sortSelect.addEventListener('change', () => {
-      sortKey = sortSelect.value;
-      renderWithFilterAndSort(searchInput.value);
-    });
-
-    sitesBtn.addEventListener('click', () => {
-      sitesModal.style.display = 'block';
-      renderWithFilterAndSort(searchInput.value);
-      mobileMenu.classList.remove('active');
-    });
-
-    searchBtn.addEventListener('click', () => {
-      sitesModal.style.display = 'block';
-      renderWithFilterAndSort(searchInput.value);
-      searchInput.focus();
-      mobileMenu.classList.remove('active');
-    });
-
-    closeSites.addEventListener('click', () => {
-      sitesModal.style.display = 'none';
-    });
-
-    menuToggle.addEventListener('click', () => {
-      mobileMenu.classList.toggle('active');
-    });
-
-    themeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('light-mode');
-      const icon = themeToggle.querySelector('i');
-      icon.classList.toggle('fa-moon');
-      icon.classList.toggle('fa-sun');
-    });
-
-    refreshBtn.addEventListener('click', () => {
-      loadRepos();
-      mobileMenu.classList.remove('active');
-    });
-
-    shareBtn.addEventListener('click', async () => {
-      const shareData = {
-        title: 'Webhtm Landing Page',
-        text: 'Check out my GitHub projects!',
-        url: window.location.href
-      };
       try {
-        await navigator.share(shareData);
+        const tokenRes = await fetch(CONFIG.tokenUrl);
+        if (!tokenRes.ok) throw new Error("Token fetch failed");
+        const token = (await tokenRes.text()).trim();
+
+        const headers = { 'Authorization': `token ${token}` };
+        const res = await fetch(`https://api.github.com/users/${CONFIG.user}/repos?per_page=100`, { headers });
+        let repos = await res.json();
+
+        // Fetch Sizes for 'Big Projects'
+        repos = await Promise.all(repos.filter(r => !r.archived && r.name !== `${CONFIG.user}.github.io`).map(async r => {
+          try {
+            const sizeRes = await fetch(`https://api.github.com/repos/${CONFIG.user}/${r.name}/contents/index.html`, { headers });
+            if (sizeRes.ok) {
+              const json = await sizeRes.json();
+              r.htmlSize = json.size || 0;
+            } else r.htmlSize = 0;
+          } catch { r.htmlSize = 0; }
+          return r;
+        }));
+
+        localStorage.setItem(CONFIG.cacheKey, JSON.stringify({ timestamp: Date.now(), repos }));
+        processData(repos);
       } catch (err) {
-        navigator.clipboard.writeText(window.location.href);
-        alert('URL copied to clipboard!');
+        console.error(err);
+        document.getElementById('site-list-container').innerHTML = `<div style="padding:20px; text-align:center; color:red;">Error: ${err.message}</div>`;
       }
-      mobileMenu.classList.remove('active');
-    });
+    }
 
-    fullscreenBtn.addEventListener('click', () => {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen();
-        fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
-      } else {
-        document.exitFullscreen();
-        fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+    function processData(repos) {
+      allRepos = repos;
+      
+      // Stats
+      document.getElementById('stat-total').innerHTML = `Projects: <strong>${repos.length}</strong>`;
+      document.getElementById('stat-stars').innerHTML = `Stars: <strong>${repos.reduce((a,b)=>a+b.stargazers_count,0)}</strong>`;
+      const sorted = [...repos].sort((a,b) => new Date(b.pushed_at) - new Date(a.pushed_at));
+      if(sorted.length) document.getElementById('stat-updated').innerHTML = `Latest: <strong>${sorted[0].name}</strong>`;
+
+      // Featured (Newest)
+      renderGrid(sorted.slice(0, 4), 'grid-featured');
+
+      // Big Projects (HTML > 60KB)
+      const heavy = repos.filter(r => r.htmlSize > 60000).sort((a,b) => b.htmlSize - a.htmlSize).slice(0, 4);
+      renderGrid(heavy, 'grid-heavy');
+
+      renderList(allRepos);
+    }
+
+    // --- Rendering ---
+    function renderGrid(repos, elementId) {
+      const container = document.getElementById(elementId);
+      container.innerHTML = repos.map(r => `
+        <div class="card" onclick="window.open('https://${CONFIG.user}.github.io/${r.name}/', '_blank')">
+          <div class="card-header">
+            <h3>${r.name}</h3>
+            ${r.htmlSize > 0 ? `<span class="badge">${(r.htmlSize/1024).toFixed(1)}KB</span>` : ''}
+          </div>
+          <p>${r.description || 'No description.'}</p>
+          <div class="card-actions">
+            <button class="btn btn-primary" onclick="event.stopPropagation(); openPreview('${r.name}')">Preview</button>
+            <a href="${r.html_url}" target="_blank" class="btn btn-secondary" onclick="event.stopPropagation()"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderList(repos) {
+      const container = document.getElementById('site-list-container');
+      if (!repos.length) {
+        container.innerHTML = '<div style="padding:20px; text-align:center;">No matches found.</div>';
+        return;
       }
-      mobileMenu.classList.remove('active');
-    });
+      container.innerHTML = repos.map(r => {
+        const cat = getCategory(r);
+        let icon = 'fa-box';
+        if(cat === 'game') icon = 'fa-gamepad';
+        if(cat === 'tool') icon = 'fa-wrench';
+        if(cat === 'app') icon = 'fa-mobile-alt';
 
-    helpBtn.addEventListener('click', () => {
-      helpModal.style.display = 'block';
-      mobileMenu.classList.remove('active');
-    });
+        return `
+        <div class="list-item" onclick="window.open('https://${CONFIG.user}.github.io/${r.name}/', '_blank')" style="cursor: pointer;">
+          <div style="flex:1">
+            <div style="font-weight:bold; display:flex; align-items:center; gap:8px;">
+              <i class="fas ${icon}" style="color:var(--accent); font-size:14px;"></i> ${r.name}
+            </div>
+            <div style="font-size:13px; color:var(--text-secondary); margin-top:4px;">${r.description || ''}</div>
+          </div>
+          <button onclick="event.stopPropagation(); openPreview('${r.name}')" style="border:none; background:transparent; color:var(--accent); cursor:pointer;">
+            <i class="fas fa-play-circle" style="font-size:24px;"></i>
+          </button>
+        </div>`;
+      }).join('');
+    }
 
-    closeHelp.addEventListener('click', () => {
-      helpModal.style.display = 'none';
-    });
-
-    window.addEventListener('click', (e) => {
-      if (e.target === helpModal) {
-        helpModal.style.display = 'none';
+    // --- Interactions ---
+    function openModal(id, shouldFocus = false) {
+      document.getElementById(id).style.display = 'block';
+      if(id === 'sites-modal') {
+        document.getElementById('site-list-container').scrollTop = 0;
+        if (shouldFocus) {
+          document.getElementById('search-input').focus();
+        }
       }
-      if (e.target === previewModal) {
-        previewModal.style.display = 'none';
-      }
-      if (e.target === sitesModal) {
-        sitesModal.style.display = 'none';
-      }
-      if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target) && mobileMenu.classList.contains('active')) {
-        mobileMenu.classList.remove('active');
-      }
-    });
+    }
 
-    closePreview.addEventListener('click', () => {
-      previewModal.style.display = 'none';
-      previewIframe.src = '';
-    });
+    function closeModal(id) {
+      document.getElementById(id).style.display = 'none';
+      if(id === 'preview-modal') document.getElementById('preview-frame').src = '';
+      
+      if(id === 'sites-modal') {
+        document.getElementById('search-input').value = '';
+        filterList(); 
+      }
+    }
 
-    modalReload.addEventListener('click', () => {
-      previewIframe.src = currentPreviewUrl;
-    });
+    function openPreview(name) {
+      document.getElementById('preview-title').innerText = name;
+      document.getElementById('preview-frame').src = `https://${CONFIG.user}.github.io/${name}/`;
+      openModal('preview-modal');
+    }
 
-    loadRepos();
+    function reloadPreview() {
+      const f = document.getElementById('preview-frame');
+      f.src = f.src;
+    }
+
+    function filterList() {
+      const term = document.getElementById('search-input').value.toLowerCase();
+      const filtered = allRepos.filter(r => {
+        const matchTerm = r.name.toLowerCase().includes(term) || (r.description||'').toLowerCase().includes(term);
+        const matchCat = currentCategory === 'all' || getCategory(r) === currentCategory;
+        return matchTerm && matchCat;
+      });
+      renderList(filtered);
+    }
+
+    // --- Events & Theme ---
+    function setupEvents() {
+      document.getElementById('open-command').onclick = () => openModal('sites-modal', true);
+      document.getElementById('all-sites-btn').onclick = () => openModal('sites-modal', false);
+      document.getElementById('view-all-link').onclick = (e) => { e.preventDefault(); openModal('sites-modal', false); };
+      
+      document.getElementById('search-input').oninput = filterList;
+
+      document.querySelectorAll('.chip').forEach(c => {
+        c.onclick = () => {
+          document.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
+          c.classList.add('active');
+          currentCategory = c.dataset.cat;
+          filterList();
+        };
+      });
+
+      window.onclick = (e) => {
+        if(e.target.classList.contains('modal')) closeModal(e.target.id);
+      };
+
+      document.getElementById('theme-toggle').onclick = () => {
+        document.body.classList.toggle('light-mode');
+        const isLight = document.body.classList.contains('light-mode');
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        updateThemeBtn(isLight);
+      };
+    }
+
+    function checkTheme() {
+      const isLight = localStorage.getItem('theme') === 'light';
+      if(isLight) {
+        document.body.classList.add('light-mode');
+      }
+      updateThemeBtn(isLight);
+    }
+
+    function updateThemeBtn(isLight) {
+        const btn = document.getElementById('theme-toggle');
+        const icon = btn.querySelector('i');
+        const text = btn.querySelector('.nav-text');
+        
+        // Logic: Button shows the ACTION (the opposite of current state)
+        // If Light Mode is ON, button should say "Dark Theme" (to switch to it)
+        if (isLight) {
+            icon.className = 'fas fa-moon';
+            text.textContent = 'Dark Theme';
+        } else {
+            // If Dark Mode is ON (default), button should say "Light Theme"
+            icon.className = 'fas fa-sun';
+            text.textContent = 'Light Theme';
+        }
+    }
+
+    init();
   </script>
 </body>
 </html>
