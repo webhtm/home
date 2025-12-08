@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Franklin+Gothic+Medium&display=swap');
-
     :root {
       --bg-color: #121212;
       --card-bg: #1e1e1e;
@@ -29,7 +28,6 @@
       --text-secondary: #555555;
       --border: rgba(0, 0, 0, 0.1);
       --scroll-thumb: #ccc;
-      /* UPDATED: Darker green start color for better contrast on white background */
       --accent-gradient: linear-gradient(90deg, #009f5d, #00b7eb);
     }
 
@@ -249,6 +247,146 @@
       font-size: 12px;
     }
 
+    /* --- Articles Carousel Styles --- */
+    .carousel-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      padding: 10px 5px; /* Space for shadow */
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE */
+    }
+    .carousel-track::-webkit-scrollbar { display: none; } /* Chrome hide scrollbar */
+
+    .article-card {
+      min-width: 300px;
+      width: 300px;
+      height: 450px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .article-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .iframe-container {
+      flex: 1;
+      width: 100%;
+      position: relative;
+      background: #000;
+    }
+
+    .article-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .iframe-overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: transparent;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .article-info {
+      padding: 15px;
+      border-top: 1px solid var(--border);
+      background: var(--card-bg);
+      z-index: 3;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .article-text-wrapper {
+        flex: 1;
+        min-width: 0; /* Ensures truncation works */
+    }
+
+    .article-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--text-primary);
+      margin-bottom: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .article-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .article-preview-btn {
+        background: transparent;
+        border: none;
+        color: var(--accent);
+        cursor: pointer;
+        transition: transform 0.2s;
+        flex-shrink: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+    }
+    
+    .article-preview-btn:hover {
+        transform: scale(1.1);
+        color: #fff;
+    }
+
+    .nav-arrow {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.2s;
+      flex-shrink: 0;
+      margin: 0 10px;
+    }
+
+    .nav-arrow:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+    
+    @media (max-width: 768px) {
+      .nav-arrow { display: none; }
+      .article-card { min-width: 85vw; }
+    }
+
     /* --- Modals --- */
     .modal {
       display: none;
@@ -292,16 +430,16 @@
       background: var(--card-bg);
     }
 
-    /* UPDATED SEARCH BAR CSS */
+    /* SEARCH BAR */
     .search-bar { 
-      position: relative; 
-      width: 100%; 
-      margin-bottom: 10px; 
-    }
+       position: relative; 
+       width: 100%; 
+       margin-bottom: 10px; 
+     }
 
     .search-bar input {
       width: 100%;
-      padding: 10px 35px 10px 35px; /* Added padding right for X btn */
+      padding: 10px 35px 10px 35px;
       background: var(--bg-color);
       border: 1px solid var(--border);
       color: var(--text-primary);
@@ -314,16 +452,15 @@
       border-color: var(--accent);
     }
 
-    .search-bar i.fa-search {
-       position: absolute;
-       left: 12px;
-       top: 50%;
+    .search-bar i.fa-search { 
+       position: absolute; 
+       left: 12px; 
+       top: 50%; 
        transform: translateY(-50%);
       color: var(--text-secondary);
       pointer-events: none;
     }
 
-    /* CLEAR BUTTON STYLE */
     .clear-btn {
         position: absolute;
         right: 12px;
@@ -331,30 +468,20 @@
         transform: translateY(-50%);
         background: transparent;
         border: none;
-        color: #fff; /* Requested White */
+        color: #fff;
         cursor: pointer;
         font-size: 14px;
         opacity: 0;
         visibility: hidden;
         transition: all 0.3s ease;
     }
-
-    body.light-mode .clear-btn {
-        color: #333; /* Dark for light mode so it's visible */
-    }
-
-    .clear-btn:hover {
-        color: #00b7eb !important;
-        transform: translateY(-50%) scale(1.1);
-    }
-
-    .clear-btn.visible {
-        opacity: 1;
-        visibility: visible;
-    }
+    
+    body.light-mode .clear-btn { color: #333; }
+    .clear-btn:hover { color: #00b7eb !important; transform: translateY(-50%) scale(1.1); }
+    .clear-btn.visible { opacity: 1; visibility: visible; }
 
     .filter-chips { display: flex; gap: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); overflow-x: auto; }
-
+    
     .chip {
       padding: 6px 12px;
       background: var(--bg-color);
@@ -367,7 +494,7 @@
     }
 
     .chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-
+    
     .site-list-container { flex: 1; overflow-y: auto; padding: 0; }
     
     .list-item {
@@ -382,23 +509,15 @@
 
     .preview-frame { width: 100%; flex: 1; border: none; background: #fff; }
     
-    /* Close Button Hover Effect */
-    .modal-close-btn {
-        transition: color 0.2s ease;
-        background: transparent;
-        border: none;
-        cursor: pointer;
-    }
-    
-    .modal-close-btn:hover {
-        color: var(--accent) !important;
-    }
+    .modal-close-btn { transition: color 0.2s ease; background: transparent; border: none; cursor: pointer; }
+    .modal-close-btn:hover { color: var(--accent) !important; }
 
+    /* LOADER */
     /* --- NEW 3-DOT LOADER --- */
     #page-loader {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: #333;
+      background: #121212; /* Dark background to make the blue pop */
       z-index: 9999;
       display: flex;
       justify-content: center;
@@ -410,33 +529,36 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 12px;
+      gap: 15px; /* Space between dots */
     }
 
     .loader-dots span {
-      width: 15px;
-      height: 15px;
-      background-color: var(--accent);
+      width: 18px;
+      height: 18px;
+      background-color: #00b7eb; /* Requested Color */
       border-radius: 50%;
       display: inline-block;
-      animation: dot-blink 1.4s infinite ease-in-out both;
+      opacity: 0.2; /* Start dim */
+      transform: scale(0.8); /* Start small */
+      animation: dot-flash 1.4s ease infinite both;
     }
 
-    .loader-dots span:nth-child(1) { animation-delay: -0.32s; }
-    .loader-dots span:nth-child(2) { animation-delay: -0.16s; }
+    /* Staggered delays create the "one by one" wave effect */
+    .loader-dots span:nth-child(1) { animation-delay: 0s; }
+    .loader-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .loader-dots span:nth-child(3) { animation-delay: 0.4s; }
 
-    @keyframes dot-blink {
+    @keyframes dot-flash {
       0%, 80%, 100% {
-        transform: scale(0);
-        opacity: 0.5;
+        opacity: 0.2;
+        transform: scale(0.8);
       }
       40% {
-        transform: scale(1);
         opacity: 1;
+        transform: scale(1.3); /* Flash bigger */
       }
     }
 
-    /* Mobile Optimization */
     @media (max-width: 600px) {
       .nav-text { display: none; }
       .hero h1 { font-size: 32px; }
@@ -491,8 +613,7 @@
         </div>
         <a href="#" id="view-all-link" style="color: var(--accent); text-decoration: none; font-size:14px;">View All Sites <i class="fas fa-arrow-right"></i></a>
       </div>
-      <div class="grid" id="grid-featured">
-        </div>
+      <div class="grid" id="grid-featured"></div>
     </section>
 
     <section id="big-projects">
@@ -502,9 +623,30 @@
           <p>Large Single-File Applications (>60KB).</p>
         </div>
       </div>
-      <div class="grid" id="grid-heavy">
+      <div class="grid" id="grid-heavy"></div>
+    </section>
+
+    <section id="articles-section" style="display:none;">
+        <div class="section-header">
+            <div>
+              <h2>Articles & Guides</h2>
+              <p>Research, fixes, and readings.</p>
+            </div>
+            <div style="font-size: 14px; color: var(--text-secondary);">
+                <i class="fas fa-hand-pointer"></i> Swipe or click arrows
+            </div>
+        </div>
+        
+        <div class="carousel-wrapper">
+            <div class="nav-arrow" onclick="scrollArticles(-1)"><i class="fas fa-chevron-left"></i></div>
+            
+            <div class="carousel-track" id="articles-track">
+                </div>
+            
+            <div class="nav-arrow" onclick="scrollArticles(1)"><i class="fas fa-chevron-right"></i></div>
         </div>
     </section>
+
   </main>
 
   <div id="sites-modal" class="modal">
@@ -518,9 +660,7 @@
         <div class="search-bar">
           <i class="fas fa-search"></i>
           <input type="text" id="search-input" placeholder="Type to search..." autocomplete="off">
-          <button id="clear-search-btn" class="clear-btn" title="Clear Search">
-             <i class="fas fa-times"></i>
-          </button>
+          <button id="clear-search-btn" class="clear-btn" title="Clear Search"><i class="fas fa-times"></i></button>
         </div>
 
         <div class="filter-chips" id="category-chips">
@@ -528,9 +668,11 @@
           <div class="chip" data-cat="game">Games</div>
           <div class="chip" data-cat="app">Apps</div>
           <div class="chip" data-cat="tool">Tools</div>
+          <div class="chip" data-cat="article">Articles</div>
           <div class="chip" data-cat="other">Other</div>
         </div>
       </div>
+
       <div class="site-list-container" id="site-list-container">
         <div style="padding:20px; text-align:center; color:var(--text-secondary);">Loading...</div>
       </div>
@@ -559,10 +701,11 @@
       cacheTime: 3600000 // 1 hour
     };
 
-    // --- Robust Categorization Logic ---
+    // --- Categorization Logic ---
     const gameKeywords = ['game', 'toy', 'toys', 'flow', 'pool', 'slide', 'puzzle', 'adventure', 'rpg', 'shooter', 'platformer', 'chess', 'merge', 'tic-tac-toe', 'snake', 'flappy', 'minesweeper', 'guess', 'ball', 'bomb', 'pairs', 'blitz', '8-ball', 'simulator', 'arcade', 'hangman', 'sudoku', 'tetris', 'pacman', 'wordle', 'cards', 'racing', 'battle', 'maze', 'tycoon', 'lexicon', 'clicker'];
     const appKeywords = ['app', 'insider', 'application', 'editor', 'picker', 'download', 'downloader', 'converter', 'viewer', 'manager', 'home page', 'img editor', 'finder', 'drive', 'share', 'vmware', 'calculator', 'todo', 'list', 'note', 'tracker', 'player'];
-    const toolKeywords = ['tool', 'utility', 'generator', 'builder', 'tester', 'analyzer', 'script', 'api', 'library', 'framework', 'cli', 'command', 'helper', 'proxy'];
+    const toolKeywords = ['tool', 'utility', 'generator', 'builder', 'tester', 'debugger', 'lint', 'analyzer', 'script', 'api', 'library', 'framework', 'cli', 'command', 'helper', 'proxy'];
+    const articleKeywords = ['research', 'article', 'how', 'fix', 'forum', 'read', 'why', 'book'];
 
     function getCategory(repo) {
       const name = repo.name.toLowerCase();
@@ -573,6 +716,9 @@
       if (gameKeywords.some(kw => combined.includes(kw))) return 'game';
       if (appKeywords.some(kw => combined.includes(kw))) return 'app';
       if (toolKeywords.some(kw => combined.includes(kw))) return 'tool';
+      // Added global check for articles here
+      if (articleKeywords.some(kw => combined.includes(kw))) return 'article';
+      
       if (lang.includes('python') || lang.includes('javascript') && desc.includes('tool')) return 'tool';
       return 'other';
     }
@@ -582,101 +728,73 @@
     let currentCategory = 'all';
 
     async function init() {
-      // Disable scrolling while loading
       document.body.style.overflow = 'hidden';
       checkTheme();
       setupEvents();
-      
-      try {
-        await fetchAndRender();
-      } catch (e) {
-        console.error("Critical Init Error:", e);
-      } finally {
-        // ALWAYS hide loader, even if fetch fails
+      try { await fetchAndRender(); } 
+      catch (e) { console.error("Critical Init Error:", e); } 
+      finally {
         const loader = document.getElementById('page-loader');
         loader.style.opacity = '0';
         setTimeout(() => {
           loader.style.display = 'none';
-          // Re-enable scrolling
           document.body.style.overflow = '';
         }, 500);
       }
     }
 
-    // --- Data Fetching & Caching Logic ---
+    // --- Data Fetching ---
     async function fetchAndRender() {
       const cached = localStorage.getItem(CONFIG.cacheKey);
-      
       if (cached) {
         try {
             const data = JSON.parse(cached);
-            if (Date.now() - data.timestamp < CONFIG.cacheTime * 24) { 
-               processData(data.repos);
+            if (Date.now() - data.timestamp < CONFIG.cacheTime * 24) {
+                processData(data.repos);
               silentUpdateCheck();
               return;
             }
         } catch(e) { console.warn("Cache parse failed", e); }
       }
-      
-      // If no cache or extremely old, do a blocking fetch
       await fullFetch();
     }
 
-    // Helper: Timeout wrapper for Fetch
     function fetchWithTimeout(url, options = {}, timeout = 5000) {
         return Promise.race([
             fetch(url, options),
-            new Promise((_, reject) => 
-                setTimeout(() => reject(new Error('Request timed out')), timeout)
-            )
+            new Promise((_, reject) => setTimeout(() => reject(new Error('Request timed out')), timeout))
         ]);
     }
 
-    // Standard blocking fetch (first load)
     async function fullFetch() {
       let headers = {};
       try {
-        // 1. Try to fetch token with timeout
         try {
             const tokenRes = await fetchWithTimeout(CONFIG.tokenUrl, {}, 3000); 
             if (tokenRes.ok) {
                 const token = (await tokenRes.text()).trim();
                 headers = { 'Authorization': `token ${token}` };
             }
-        } catch (tokenErr) {
-            console.warn("Token fetch failed (using public API mode):", tokenErr);
-        }
+        } catch (tokenErr) { console.warn("Token fetch failed:", tokenErr); }
 
-        // 2. Fetch Repos
         const res = await fetch(`https://api.github.com/users/${CONFIG.user}/repos?per_page=100`, { headers });
         if (!res.ok) throw new Error(`GitHub API Error: ${res.status}`);
         
         let repos = await res.json();
+        try { repos = await fetchSizes(repos, headers); } catch (sizeErr) { console.warn("Size fetch incomplete", sizeErr); }
 
-        // 3. Fetch Sizes
-        try {
-            repos = await fetchSizes(repos, headers);
-        } catch (sizeErr) {
-            console.warn("Size fetch incomplete, continuing...", sizeErr);
-        }
-
-        // Save to cache
         localStorage.setItem(CONFIG.cacheKey, JSON.stringify({ timestamp: Date.now(), repos }));
         processData(repos);
-
       } catch (err) {
         console.error(err);
         document.getElementById('site-list-container').innerHTML = `<div style="padding:20px; text-align:center; color:#ff6b6b;">Failed to load projects.<br><small>${err.message}</small></div>`;
       }
     }
 
-    // Helper: Fetch File Sizes
     async function fetchSizes(repos, headers) {
       const safeRepos = repos.filter(r => !r.archived && r.name !== `${CONFIG.user}.github.io`);
-      
       return Promise.all(safeRepos.map(async r => {
         try {
-          // Optimization: Only fetch size if we suspect it's a web project
           const sizeRes = await fetch(`https://api.github.com/repos/${CONFIG.user}/${r.name}/contents/index.html`, { headers });
           if (sizeRes.ok) {
             const json = await sizeRes.json();
@@ -687,7 +805,6 @@
       }));
     }
 
-    // --- Silent Background Update ---
     async function silentUpdateCheck() {
       console.log("Starting silent update check...");
       try {
@@ -710,45 +827,36 @@
             const cachedData = JSON.parse(cachedStr);
             const oldRepos = cachedData.repos;
             const sortFn = (a,b) => new Date(b.pushed_at) - new Date(a.pushed_at);
-            
             newRepos.sort(sortFn);
             const oldSorted = [...oldRepos].sort(sortFn);
             
-            if (newRepos.length === oldRepos.length && 
-                newRepos.length > 0 && 
-                newRepos[0].pushed_at === oldSorted[0].pushed_at) {
-                console.log("Silent update: No changes detected.");
-                return;
-            }
+            if (newRepos.length === oldRepos.length && newRepos.length > 0 && newRepos[0].pushed_at === oldSorted[0].pushed_at) return;
         }
-
-        console.log("Silent update: Changes detected. Updating cache...");
         
         newRepos = await fetchSizes(newRepos, headers);
         localStorage.setItem(CONFIG.cacheKey, JSON.stringify({ timestamp: Date.now(), repos: newRepos }));
-        
-      } catch (err) {
-        console.warn("Silent update failed:", err);
-      }
+      } catch (err) { console.warn("Silent update failed:", err); }
     }
 
     function processData(repos) {
       allRepos = repos;
-      
-      // Stats
       document.getElementById('stat-total').innerHTML = `Projects: <strong>${repos.length}</strong>`;
       document.getElementById('stat-stars').innerHTML = `Stars: <strong>${repos.reduce((a,b)=>a+b.stargazers_count,0)}</strong>`;
       
       const sorted = [...repos].sort((a,b) => new Date(b.pushed_at) - new Date(a.pushed_at));
       if(sorted.length) document.getElementById('stat-updated').innerHTML = `Latest: <strong>${sorted[0].name}</strong>`;
 
-      // Featured (Newest)
       renderGrid(sorted.slice(0, 4), 'grid-featured');
-
-      // Big Projects (HTML > 60KB)
       const heavy = repos.filter(r => r.htmlSize > 60000).sort((a,b) => b.htmlSize - a.htmlSize).slice(0, 4);
       renderGrid(heavy, 'grid-heavy');
       
+      // We still render the carousel based on specific Article logic, but now it matches the category logic too
+      const articles = repos.filter(r => {
+          const combined = (r.name + ' ' + (r.description||'')).toLowerCase();
+          return articleKeywords.some(kw => combined.includes(kw));
+      }).sort((a,b) => new Date(b.pushed_at) - new Date(a.pushed_at));
+
+      renderArticles(articles);
       renderList(allRepos);
     }
 
@@ -770,18 +878,42 @@
       `).join('');
     }
 
+    function renderArticles(repos) {
+        const section = document.getElementById('articles-section');
+        const track = document.getElementById('articles-track');
+        if (!repos.length) { section.style.display = 'none'; return; }
+
+        section.style.display = 'block';
+        track.innerHTML = repos.map(r => `
+            <div class="article-card">
+                <div class="iframe-container">
+                    <iframe class="article-iframe" loading="lazy" src="https://${CONFIG.user}.github.io/${r.name}/" sandbox="allow-scripts allow-same-origin"></iframe>
+                    <div class="iframe-overlay" onclick="window.open('https://${CONFIG.user}.github.io/${r.name}/', '_blank')" title="Click to open site"></div>
+                </div>
+                <div class="article-info">
+                    <div class="article-text-wrapper">
+                        <div class="article-title">${r.name}</div>
+                        <div class="article-desc">${r.description || 'View article'}</div>
+                    </div>
+                    <button class="article-preview-btn" onclick="openPreview('${r.name}')" title="Preview Article">
+                        <i class="fas fa-play-circle" style="font-size: 28px;"></i>
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+
     function renderList(repos) {
       const container = document.getElementById('site-list-container');
-      if (!repos.length) {
-        container.innerHTML = '<div style="padding:20px; text-align:center;">No matches found.</div>';
-        return;
-      }
+      if (!repos.length) { container.innerHTML = '<div style="padding:20px; text-align:center;">No matches found.</div>'; return; }
+      
       container.innerHTML = repos.map(r => {
         const cat = getCategory(r);
         let icon = 'fa-box';
         if(cat === 'game') icon = 'fa-gamepad';
         if(cat === 'tool') icon = 'fa-wrench';
         if(cat === 'app') icon = 'fa-mobile-alt';
+        if(cat === 'article') icon = 'fa-book-open'; // NEW ICON for articles
         
         return `
         <div class="list-item" onclick="window.open('https://${CONFIG.user}.github.io/${r.name}/', '_blank')" style="cursor: pointer;">
@@ -803,22 +935,19 @@
       document.getElementById(id).style.display = 'block';
       if(id === 'sites-modal') {
         document.getElementById('site-list-container').scrollTop = 0;
-        if (shouldFocus) {
-          document.getElementById('search-input').focus();
-        }
+        if (shouldFocus) document.getElementById('search-input').focus();
       }
     }
 
     function closeModal(id) {
       document.getElementById(id).style.display = 'none';
       if(id === 'preview-modal') document.getElementById('preview-frame').src = '';
-      
       if(id === 'sites-modal') {
         const searchInput = document.getElementById('search-input');
         searchInput.value = '';
-        toggleClearBtn(false); // Hide clear btn on close
-        filterList(); 
-       }
+        toggleClearBtn(false); 
+        filterList();
+        }
     }
 
     function openPreview(name) {
@@ -832,7 +961,11 @@
       f.src = f.src;
     }
 
-    // Toggle Clear Button Visibility
+    function scrollArticles(direction) {
+        const track = document.getElementById('articles-track');
+        track.scrollBy({ left: direction * 320, behavior: 'smooth' });
+    }
+
     function toggleClearBtn(show) {
       const btn = document.getElementById('clear-search-btn');
       if (show) btn.classList.add('visible');
@@ -842,10 +975,7 @@
     function filterList() {
       const input = document.getElementById('search-input');
       const term = input.value.toLowerCase();
-      
-      // Show/Hide Clear Button based on input
       toggleClearBtn(term.length > 0);
-
       const filtered = allRepos.filter(r => {
         const matchTerm = r.name.toLowerCase().includes(term) || (r.description||'').toLowerCase().includes(term);
         const matchCat = currentCategory === 'all' || getCategory(r) === currentCategory;
@@ -859,17 +989,13 @@
       document.getElementById('open-command').onclick = () => openModal('sites-modal', true);
       document.getElementById('all-sites-btn').onclick = () => openModal('sites-modal', false);
       document.getElementById('view-all-link').onclick = (e) => { e.preventDefault(); openModal('sites-modal', false); };
-      
       document.getElementById('search-input').oninput = filterList;
-
-      // CLEAR BUTTON LOGIC
       document.getElementById('clear-search-btn').onclick = () => {
         const input = document.getElementById('search-input');
         input.value = '';
         input.focus();
-        filterList(); // This will also hide the button via toggleClearBtn
+        filterList();
       };
-
       document.querySelectorAll('.chip').forEach(c => {
         c.onclick = () => {
           document.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
@@ -878,11 +1004,9 @@
           filterList();
         };
       });
-
       window.onclick = (e) => {
         if(e.target.classList.contains('modal')) closeModal(e.target.id);
       };
-
       document.getElementById('theme-toggle').onclick = () => {
         document.body.classList.toggle('light-mode');
         const isLight = document.body.classList.contains('light-mode');
@@ -893,9 +1017,7 @@
 
     function checkTheme() {
       const isLight = localStorage.getItem('theme') === 'light';
-      if(isLight) {
-        document.body.classList.add('light-mode');
-      }
+      if(isLight) document.body.classList.add('light-mode');
       updateThemeBtn(isLight);
     }
 
@@ -903,8 +1025,6 @@
         const btn = document.getElementById('theme-toggle');
         const icon = btn.querySelector('i');
         const text = btn.querySelector('.nav-text');
-        
-        // Logic: Button shows the ACTION (the opposite of current state)
         if (isLight) {
             icon.className = 'fas fa-moon';
             text.textContent = 'Dark Theme';
